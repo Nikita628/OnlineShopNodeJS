@@ -1,0 +1,2 @@
+// compile ts to js
+tsc 
