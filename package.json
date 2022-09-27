@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run pre-build && tsc && npm run post-build && node dist/index.js",
+    "start": "npm run pre-build && npm run ts-build && npm run post-build && node dist/index.js",
     "start:dev": "nodemon src/index.ts",
-    "build": "npm run pre-build && tsc && npm run post-build",
+    "build": "npm run pre-build && npm run ts-build && npm run post-build",
     "pre-build": "node pre-build.js",
+    "ts-build": "tsc",
     "post-build": "node post-build.js"
   },
   "author": "",
