@@ -4,34 +4,23 @@
   margin: auto;
 }
 
-.form-control {
-  margin: 1rem 0;
-}
-
-.form-control label,
-.form-control input {
-  display: block;
-  width: 100%;
-}
-
-.form-control input {
-  border: 1px solid var(--border-primary);
-  font: inherit;
-  border-radius: 2px;
-}
-
-button {
-  font: inherit;
-  border: 1px solid var(--border-primary);
-  color: var(--text-primary);
+.product-item {
   background: var(--background-primary);
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 5px 10px;
+  width: 20rem;
+  max-width: 95%;
 }
 
-button:hover,
-button:active {
-  background-color: var(--background-primary);
+.product__title {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.product__price {
+  text-align: center;
   color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.product__description {
+  text-align: center;
 }

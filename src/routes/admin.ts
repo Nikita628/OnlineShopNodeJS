@@ -1,13 +1,16 @@
 import express from "express";
-import { viewsPath } from "../utils/path";
+import { IProduct } from "../models/product";
+import { instance as productService } from '../services/productService';
 
 const adminRouter = express.Router();
 
 adminRouter.get("/add-product", (req, res, next) => {
-  res.sendFile(viewsPath('add-product.html'));
+  res.render('add-product', { pageTitle: 'Add Product' });
 });
 
 adminRouter.post("/add-product", (req, res, next) => {
+  const product: IProduct = req.body;
+  productService.addProduct(product);
   res.redirect("/");
 });
 

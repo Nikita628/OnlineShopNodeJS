@@ -3,9 +3,11 @@ import express from "express";
 import path from "path";
 import { adminRouter } from "./routes/admin";
 import { shopRouter } from "./routes/shop";
-import { viewsPath } from "./utils/path";
 
 const app = express();
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -19,7 +21,7 @@ app.use((req, res, next) => {
 app.use('/admin', adminRouter);
 app.use(shopRouter);
 app.use((req, res, next) => {
-  res.status(404).sendFile(viewsPath('not-found.html'));
+  res.status(404).render('not-found', { pageTitle: 'Page Not Found' });
 });
 
 

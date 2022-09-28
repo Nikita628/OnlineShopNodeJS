@@ -1,10 +1,10 @@
 import express from "express";
-import { viewsPath } from "../utils/path";
+import { instance as productService } from '../services/productService';
 
 const shopRouter = express.Router();
 
 shopRouter.get("/", (req, res, next) => {
-  res.sendFile(viewsPath('shop.html'));
+  res.render('shop', { pageTitle: 'Shop', products: productService.getProducts() });
 });
 
 export { shopRouter };
