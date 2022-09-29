@@ -7,8 +7,4 @@ export function rootPath(...args: string[]): string {
   return path.join(_rootDir, ...args);
 }
 
-export function viewsPath(...args: string[]): string {
-  return path.join(_rootDir, 'views', ...args);
-}
-
 export const rootDir = _rootDir;

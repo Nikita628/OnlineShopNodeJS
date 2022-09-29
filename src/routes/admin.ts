@@ -1,17 +1,24 @@
 import express from "express";
-import { IProduct } from "../models/product";
-import { instance as productService } from '../services/productService';
+import { IProduct, productMapper } from "../models/product";
+import { productServiceInstance } from "../services/product-service";
 
 const adminRouter = express.Router();
 
-adminRouter.get("/add-product", (req, res, next) => {
-  res.render('add-product', { pageTitle: 'Add Product' });
+adminRouter.get("/create-product", (req, res, next) => {
+  res.render("admin/create-product", { pageTitle: "Create Product" });
 });
 
-adminRouter.post("/add-product", (req, res, next) => {
-  const product: IProduct = req.body;
-  productService.addProduct(product);
+adminRouter.post("/create-product", (req, res, next) => {
+  const product: IProduct = productMapper.toModel(req.body);
+  productServiceInstance.addProduct(product);
   res.redirect("/");
+});
+
+adminRouter.get("/product-list", (req, res, next) => {
+  res.render("admin/admin-product-list", {
+    pageTitle: "Admin Products",
+    products: productServiceInstance.getProducts(),
+  });
 });
 
 export { adminRouter };

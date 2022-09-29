@@ -112,3 +112,22 @@ main {
 .card__actions a {
   margin: 0 0.25rem;
 }
+
+.card__actions form {
+  display: inline-block;
+}
+
+.btn {
+  padding: 5px 10px;
+  background: var(--background-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-primary);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 14px;
+  font: inherit;
+}
+
+.btn:hover {
+  background: var(--background-secondary);
+}
