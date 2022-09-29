@@ -2,12 +2,14 @@
   width: 20rem;
   max-width: 90%;
   margin: auto;
+  display: block;
 }
 
 .product-item {
-  background: var(--background-primary);
   width: 20rem;
   max-width: 95%;
+  margin: 1rem;
+  background: var(--background-primary);
 }
 
 .product__title {
