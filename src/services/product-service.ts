@@ -18,16 +18,16 @@ const products: IProduct[] = [
 ];
 
 export class ProductService {
-  getProducts(): IProduct[] {
+  public getProducts(): IProduct[] {
     return [...products];
   }
 
-  addProduct(product: IProduct): void {
+  public addProduct(product: IProduct): void {
     product.id = Math.random().toString();
     products.push(product);
   }
 
-  getProduct(id: string): IProduct | undefined {
+  public getProduct(id: string): IProduct | undefined {
     return products.find(p => p.id === id);
   }
 }

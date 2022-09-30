@@ -1,4 +1,5 @@
 import express from "express";
+import { cartServiceInstance } from "../services/cart-service";
 import { productServiceInstance } from "../services/product-service";
 
 const shopRouter = express.Router();
@@ -33,7 +34,14 @@ shopRouter.get("/checkout", (req, res, next) => {
 shopRouter.get("/cart", (req, res, next) => {
   res.render("shop/cart", {
     pageTitle: "Cart",
+    cart: cartServiceInstance.getCart(''),
   });
+});
+
+shopRouter.post("/cart", (req, res, next) => {
+  const productId: string = req.body.productId;
+  cartServiceInstance.addToCart(productId);
+  res.redirect('/cart');
 });
 
 shopRouter.get("/orders", (req, res, next) => {
