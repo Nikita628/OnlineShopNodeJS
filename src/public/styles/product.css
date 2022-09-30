@@ -15,6 +15,7 @@
 .product__title {
   font-size: 1.2rem;
   text-align: center;
+  color: var(--text-primary);
 }
 
 .product__price {
@@ -25,4 +26,5 @@
 
 .product__description {
   text-align: center;
+  color: var(--text-primary);
 }

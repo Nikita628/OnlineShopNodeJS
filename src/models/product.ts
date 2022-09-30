@@ -1,4 +1,5 @@
 export interface IProduct {
+  id: string;
   title: string;
   imageUrl: string;
   description: string;
@@ -12,6 +13,7 @@ export const productMapper = {
       imageUrl: item.imageUrl ?? 'https://www.theeastnashvillian.com/wp-content/uploads/2020/07/Placeholder-template-image-1.jpg',
       description: item.description ?? '',
       price: Number(item.price) || 0,
+      id: item.id ?? '',
     }
   }
 };

@@ -17,6 +17,13 @@ shopRouter.get("/product-list", (req, res, next) => {
   });
 });
 
+shopRouter.get("/product-details/:id", (req, res, next) => {
+  res.render("shop/product-details", {
+    pageTitle: "Product Details",
+    product: productServiceInstance.getProduct(req.params.id),
+  });
+});
+
 shopRouter.get("/checkout", (req, res, next) => {
   res.render("shop/checkout", {
     pageTitle: "Checkout",
