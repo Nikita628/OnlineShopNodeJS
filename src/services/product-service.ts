@@ -1,6 +1,6 @@
 import { IProduct } from "../models/product";
 
-const products: IProduct[] = [
+let products: IProduct[] = [
   {
     id: Math.random().toString(),
     title: "adipisicing",
@@ -29,6 +29,21 @@ export class ProductService {
 
   public getProduct(id: string): IProduct | undefined {
     return products.find(p => p.id === id);
+  }
+
+  public updateProduct(product: IProduct): void {
+    const existing = products.find(p => p.id === product.id);
+
+    if (existing) {
+      existing.description = product.description;
+      existing.imageUrl = product.imageUrl;
+      existing.price = product.price;
+      existing.title = product.title;
+    }
+  }
+
+  public deleteProduct(productId: string): void {
+    products = products.filter(p => p.id !== productId);
   }
 }
 

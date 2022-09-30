@@ -44,6 +44,17 @@ export class CartService {
   public getCart(cartId: string): ICart {
     return cart;
   }
+
+  public deleteProductFromCart(productId: string): void {
+    cart.products = cart.products.filter((p) => {
+      if (p.product.id === productId) {
+        cart.totalPrice -= (p.quantity * p.product.price);
+        return false;
+      }
+
+      return true;
+    });
+  }
 }
 
 export const cartServiceInstance = new CartService();

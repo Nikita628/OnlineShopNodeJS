@@ -1,5 +1,6 @@
 import express from "express";
 import { IProduct, productMapper } from "../models/product";
+import { cartServiceInstance } from "../services/cart-service";
 import { productServiceInstance } from "../services/product-service";
 
 const adminRouter = express.Router();
@@ -11,7 +12,7 @@ adminRouter.get("/create-product", (req, res, next) => {
 adminRouter.post("/create-product", (req, res, next) => {
   const product: IProduct = productMapper.toModel(req.body);
   productServiceInstance.addProduct(product);
-  res.redirect("/");
+  res.redirect("/admin/product-list");
 });
 
 adminRouter.get("/product-list", (req, res, next) => {
@@ -19,6 +20,25 @@ adminRouter.get("/product-list", (req, res, next) => {
     pageTitle: "Admin Products",
     products: productServiceInstance.getProducts(),
   });
+});
+
+adminRouter.get("/edit-product/:productId", (req, res, next) => {
+  res.render('admin/edit-product', {
+    pageTitle: 'Edit Product',
+    product: productServiceInstance.getProduct(req.params.productId),
+  })
+});
+
+adminRouter.post("/edit-product", (req, res, next) => {
+  const product: IProduct = productMapper.toModel(req.body);
+  productServiceInstance.updateProduct(product);
+  res.redirect("/admin/product-list");
+});
+
+adminRouter.post("/delete-product", (req, res, next) => {
+  productServiceInstance.deleteProduct(req.body.productId);
+  cartServiceInstance.deleteProductFromCart(req.body.productId);
+  res.redirect("/admin/product-list");
 });
 
 export { adminRouter };
