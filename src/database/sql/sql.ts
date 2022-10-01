@@ -1,11 +1,12 @@
 import mysql from 'mysql2';
+import { config } from '../../config';
 
 const mysqlPool = mysql.createPool({
-    host: 'localhost',
-    port: 3306,
-    user: 'admin',
-    password: 'admin',
-    database: 'shop_node',
+    host: config.dbHost,
+    port: config.dbPort,
+    user: config.dbUser,
+    password: config.dbPassword,
+    database: config.dbName,
 });
 
 export const dbPool = mysqlPool.promise();

@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run pre-build && npm run ts-build && npm run post-build && node dist/index.js",
-    "start:local": "nodemon src/index.ts",
+    "start": "npm run build && node dist/index.js",
+    "start:local": "set ENVIRONMENT=local && nodemon src/index.ts",
+    "build:local": "set ENVIRONMENT=local && npm run build",
+    "start:development": "set ENVIRONMENT=development && npm run build && node dist/index.js",
+    "build:development": "set ENVIRONMENT=development && npm run build",
     "build": "npm run pre-build && npm run ts-build && npm run post-build",
     "pre-build": "node pre-build.js",
     "ts-build": "tsc",
