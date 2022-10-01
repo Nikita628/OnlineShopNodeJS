@@ -6,7 +6,24 @@
 <body>
     <%- include('../includes/navigation.ejs') %>
 
-    <p>cart</p>
+    <main>
+        <% if (cart.products.length) { %>
+            <p>Total price: <%= cart.totalPrice %></p>
+            <ul>
+                <% for (const p of cart.products) { %>
+                    <li>
+                        <p><%= p.product.title %> (<%= p.quantity %>)</p>
+                        <form action="/delete-from-cart" method="post">
+                            <input type="hidden" name="productId" value="<%= p.product.id %>">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </li>
+                <% } %>
+            </ul>
+        <% } else { %>
+            <h2>Cart is empty</h2>
+        <% } %>
+    </main>
     
     <%- include('../includes/end.ejs') %>
     

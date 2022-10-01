@@ -2,21 +2,8 @@ import { ICart } from "../models/cart";
 import { productServiceInstance } from "./product-service";
 
 const cart: ICart = {
-  products: [
-    {
-      quantity: 1,
-      product: {
-        id: Math.random().toString(),
-        title: "adipisicing",
-        description:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, modi!",
-        imageUrl:
-          "https://www.theeastnashvillian.com/wp-content/uploads/2020/07/Placeholder-template-image-1.jpg",
-        price: 123.33,
-      },
-    },
-  ],
-  totalPrice: 123.33,
+  products: [],
+  totalPrice: 0,
 };
 
 export class CartService {
@@ -48,7 +35,7 @@ export class CartService {
   public deleteProductFromCart(productId: string): void {
     cart.products = cart.products.filter((p) => {
       if (p.product.id === productId) {
-        cart.totalPrice -= (p.quantity * p.product.price);
+        cart.totalPrice -= p.quantity * p.product.price;
         return false;
       }
 

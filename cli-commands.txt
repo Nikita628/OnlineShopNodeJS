@@ -1,2 +1,4 @@
 // compile ts to js
 tsc 
+
+docker run -p 3001:80 --name shop-mysql -e MYSQL_USER=admin MYSQL_ROOT_PASSWORD=admin MYSQL_DATABASE=shop_node -d mysql
