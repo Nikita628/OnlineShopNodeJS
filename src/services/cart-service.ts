@@ -1,4 +1,5 @@
 import { ICart } from "../models/cart";
+import { ICartService } from "./contracts/cart-service";
 import { productServiceInstance } from "./product-service";
 
 const cart: ICart = {
@@ -6,7 +7,7 @@ const cart: ICart = {
   totalPrice: 0,
 };
 
-export class CartService {
+export class CartServiceInMemory implements ICartService {
   public addToCart(productId: string): void {
     const product = productServiceInstance.getProduct(productId);
 
@@ -32,7 +33,7 @@ export class CartService {
     return cart;
   }
 
-  public deleteProductFromCart(productId: string): void {
+  public deleteFromCart(productId: string): void {
     cart.products = cart.products.filter((p) => {
       if (p.product.id === productId) {
         cart.totalPrice -= p.quantity * p.product.price;
@@ -44,4 +45,4 @@ export class CartService {
   }
 }
 
-export const cartServiceInstance = new CartService();
+export const cartServiceInstance: ICartService = new CartServiceInMemory();

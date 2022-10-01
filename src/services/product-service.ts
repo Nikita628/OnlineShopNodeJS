@@ -1,4 +1,5 @@
 import { IProduct } from "../models/product";
+import { IProductService } from "./contracts/product-service";
 
 let products: IProduct[] = [
   {
@@ -17,12 +18,12 @@ let products: IProduct[] = [
   },
 ];
 
-export class ProductService {
+export class ProductServiceInMemory implements IProductService {
   public getProducts(): IProduct[] {
     return [...products];
   }
 
-  public addProduct(product: IProduct): void {
+  public createProduct(product: IProduct): void {
     product.id = Math.random().toString();
     products.push(product);
   }
@@ -47,4 +48,4 @@ export class ProductService {
   }
 }
 
-export const productServiceInstance = new ProductService();
+export const productServiceInstance: IProductService = new ProductServiceInMemory();

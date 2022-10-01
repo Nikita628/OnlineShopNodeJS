@@ -1,5 +1,5 @@
 import { RowDataPacket } from "mysql2";
-import { IProduct } from "../models/product";
+import { IProduct } from "../../models/product";
 import { dbPool } from "./sql";
 
 const products: IProduct[] = [
@@ -43,6 +43,7 @@ export async function seed() {
     `);
 
     if ((rows as RowDataPacket[])[0].count === 0) {
+      // if table is empty, seed it
         for (const p of products) {
             await dbPool.execute(`
                 INSERT INTO products (title, imageUrl, description, price)

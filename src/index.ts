@@ -3,8 +3,8 @@ import express from "express";
 import path from "path";
 import { adminRouter } from "./routes/admin";
 import { shopRouter } from "./routes/shop";
-import { dbPool } from "./database/sql";
-import { seed } from "./database/sql-seed";
+import { dbPool } from "./database/sql/sql";
+import { seed } from "./database/sql/sql-seed";
 
 (async function() {
   await seed();

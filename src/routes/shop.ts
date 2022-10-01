@@ -46,7 +46,7 @@ shopRouter.post("/cart", (req, res, next) => {
 
 shopRouter.post("/delete-from-cart", (req, res, next) => {
   const productId: string = req.body.productId;
-  cartServiceInstance.deleteProductFromCart(productId);
+  cartServiceInstance.deleteFromCart(productId);
   res.redirect('/cart');
 });
 

@@ -11,7 +11,7 @@ adminRouter.get("/create-product", (req, res, next) => {
 
 adminRouter.post("/create-product", (req, res, next) => {
   const product: IProduct = productMapper.toModel(req.body);
-  productServiceInstance.addProduct(product);
+  productServiceInstance.createProduct(product);
   res.redirect("/admin/product-list");
 });
 
@@ -37,7 +37,7 @@ adminRouter.post("/edit-product", (req, res, next) => {
 
 adminRouter.post("/delete-product", (req, res, next) => {
   productServiceInstance.deleteProduct(req.body.productId);
-  cartServiceInstance.deleteProductFromCart(req.body.productId);
+  cartServiceInstance.deleteFromCart(req.body.productId);
   res.redirect("/admin/product-list");
 });
 
