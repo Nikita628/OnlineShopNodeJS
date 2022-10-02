@@ -2,6 +2,7 @@ import express from "express";
 import { IProduct, productMapper } from "../models/product";
 import { cartServiceInstance } from "../services/cart-service";
 import { productServiceInstance } from "../services/product-service";
+import { DEFAULT_USER_ID } from "../utils/constants";
 
 const adminRouter = express.Router();
 
@@ -36,8 +37,8 @@ adminRouter.post("/edit-product", async (req, res, next) => {
 });
 
 adminRouter.post("/delete-product", async (req, res, next) => {
-  productServiceInstance.deleteProduct(req.body.productId);
-  await cartServiceInstance.deleteFromCart(req.body.productId);
+  await cartServiceInstance.deleteFromCart(DEFAULT_USER_ID, req.body.productId);
+  await productServiceInstance.deleteProduct(req.body.productId);
   res.redirect("/admin/product-list");
 });
 

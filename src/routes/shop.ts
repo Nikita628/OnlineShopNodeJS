@@ -1,6 +1,7 @@
 import express from "express";
 import { cartServiceInstance } from "../services/cart-service";
 import { productServiceInstance } from "../services/product-service";
+import { DEFAULT_USER_ID } from "../utils/constants";
 
 const shopRouter = express.Router();
 
@@ -34,19 +35,19 @@ shopRouter.get("/checkout", (req, res, next) => {
 shopRouter.get("/cart", async (req, res, next) => {
   res.render("shop/cart", {
     pageTitle: "Cart",
-    cart: await cartServiceInstance.getCart(''),
+    cart: await cartServiceInstance.getCart(DEFAULT_USER_ID),
   });
 });
 
 shopRouter.post("/cart", async (req, res, next) => {
   const productId: string = req.body.productId;
-  await cartServiceInstance.addToCart(productId);
+  await cartServiceInstance.addToCart(DEFAULT_USER_ID, productId);
   res.redirect('/cart');
 });
 
 shopRouter.post("/delete-from-cart", async (req, res, next) => {
   const productId: string = req.body.productId;
-  await cartServiceInstance.deleteFromCart(productId);
+  await cartServiceInstance.deleteFromCart(DEFAULT_USER_ID, productId);
   res.redirect('/cart');
 });
 

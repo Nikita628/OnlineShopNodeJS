@@ -2,12 +2,12 @@ import sequilize, { Model } from "sequelize";
 import { db } from "../sql";
 
 export interface IUserDbModel {
-    id: number,
-    name: string,
-    email: string,
+  id: number;
+  name: string;
+  email: string;
 }
 
-export interface IUserDbModelCreation extends Omit<IUserDbModel, 'id'>{};
+export interface IUserDbModelCreation extends Omit<IUserDbModel, "id"> {}
 
 const User = db.define<Model<IUserDbModel, IUserDbModelCreation>>("user", {
   id: {
