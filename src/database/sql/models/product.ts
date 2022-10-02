@@ -1,5 +1,6 @@
 import sequilize, { Model } from "sequelize";
 import { db } from "../sql";
+import { User } from "./user";
 
 export interface IProductDbModel {
     id: number,
@@ -7,6 +8,7 @@ export interface IProductDbModel {
     price: number,
     imageUrl: string,
     description: string,
+    userId: number,
 }
 
 export interface IProductDbModelCreation extends Omit<IProductDbModel, 'id'>{};
@@ -33,6 +35,14 @@ const Product = db.define<Model<IProductDbModel, IProductDbModelCreation>>("prod
   description: {
     type: sequilize.TEXT,
     allowNull: false,
+  },
+  userId: {
+    type: sequilize.INTEGER,
+    onDelete: 'RESTRICT',
+    references: {
+      key: 'id',
+      model: User,
+    },
   },
 });
 

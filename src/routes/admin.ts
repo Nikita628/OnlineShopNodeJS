@@ -18,7 +18,7 @@ adminRouter.post("/create-product", async (req, res, next) => {
 adminRouter.get("/product-list", async (req, res, next) => {
   res.render("admin/admin-product-list", {
     pageTitle: "Admin Products",
-    products: await productServiceInstance.getProducts(),
+    products: await productServiceInstance.getProducts({}),
   });
 });
 

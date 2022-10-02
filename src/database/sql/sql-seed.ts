@@ -1,5 +1,7 @@
 import { db } from "./sql";
 import { IProductDbModelCreation, Product } from "./models/product";
+import { User } from "./models/user";
+import { DEFAULT_USER_ID } from "../../utils/constants";
 
 const products: IProductDbModelCreation[] = [
   {
@@ -9,6 +11,7 @@ const products: IProductDbModelCreation[] = [
     imageUrl:
       "https://www.theeastnashvillian.com/wp-content/uploads/2020/07/Placeholder-template-image-1.jpg",
     price: 123.33,
+    userId: DEFAULT_USER_ID,
   },
   {
     title: "amet consectetur",
@@ -17,26 +20,52 @@ const products: IProductDbModelCreation[] = [
     imageUrl:
       "https://www.theeastnashvillian.com/wp-content/uploads/2020/07/Placeholder-template-image-1.jpg",
     price: 444.5,
+    userId: DEFAULT_USER_ID,
   },
 ];
 
 export async function seedSqlDb() {
   try {
-    await db.sync();
+    // Product.belongsTo(User, { constraints: true });
+    // await db.sync({ force: true });
 
-    const count = await Product.count();
-
-    if (count === 0) {
-      for (const p of products) {
-        await Product.create({
-          description: p.description,
-          imageUrl: p.imageUrl,
-          price: p.price,
-          title: p.title,
-        });
-      }
-    }
+    // await recreateTables();
+    // await fillTables();
+    
   } catch (error) {
     console.error("seed error: ", error);
   }
+}
+
+async function fillTables(): Promise<void> {
+  const usersCount = await User.count();
+
+  if (usersCount === 0) {
+    await User.create({
+      email: 'admin@admin.com',
+      name: 'admin',
+    });
+  }
+
+  const productsCount = await Product.count();
+
+  if (productsCount === 0) {
+    for (const p of products) {
+      await Product.create({
+        description: p.description,
+        imageUrl: p.imageUrl,
+        price: p.price,
+        title: p.title,
+        userId: p.userId,
+      });
+    }
+  }
+}
+
+async function recreateTables(): Promise<void> {
+  await Product.drop();
+  await User.drop();
+
+  await User.sync();
+  await Product.sync();
 }

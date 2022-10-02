@@ -7,14 +7,14 @@ const shopRouter = express.Router();
 shopRouter.get("/", async (req, res, next) => {
   res.render("shop/index", {
     pageTitle: "Shop",
-    products: await productServiceInstance.getProducts(),
+    products: await productServiceInstance.getProducts({}),
   });
 });
 
 shopRouter.get("/product-list", async (req, res, next) => {
   res.render("shop/product-list", {
     pageTitle: "Product List",
-    products: await productServiceInstance.getProducts(),
+    products: await productServiceInstance.getProducts({}),
   });
 });
 

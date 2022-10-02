@@ -1,4 +1,5 @@
 import { IProductDbModel } from "../database/sql/models/product";
+import { DEFAULT_USER_ID } from "../utils/constants";
 
 export interface IProduct {
   id: string;
@@ -6,6 +7,11 @@ export interface IProduct {
   imageUrl: string;
   description: string;
   price: number;
+  userId: number;
+}
+
+export interface IProductSearchParam {
+  userId?: number;
 }
 
 export const productMapper = {
@@ -16,6 +22,7 @@ export const productMapper = {
       description: item.description || '',
       price: Number(item.price) || 0,
       id: item.id || '',
+      userId: item.userId || DEFAULT_USER_ID,
     }
   },
   toModelFromDbModel(item: IProductDbModel): IProduct {
@@ -25,6 +32,7 @@ export const productMapper = {
       imageUrl: item.imageUrl,
       price: item.price,
       title: item.title,
+      userId: item.userId,
     }
   }
 };

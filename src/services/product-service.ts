@@ -1,7 +1,9 @@
-import { IProduct, productMapper } from "../models/product";
+import { IProduct, IProductSearchParam, productMapper } from "../models/product";
 import { IProductService } from "./contracts/product-service";
-import { Product } from "../database/sql/models/product";
+import { IProductDbModel, Product } from "../database/sql/models/product";
+import { FindOptions } from "sequelize";
 
+//#region initial implementetaion for testing purposes
 let products: IProduct[] = [
   {
     id: Math.random().toString(),
@@ -11,6 +13,7 @@ let products: IProduct[] = [
     imageUrl:
       "https://www.theeastnashvillian.com/wp-content/uploads/2020/07/Placeholder-template-image-1.jpg",
     price: 123.33,
+    userId: 1,
   },
   {
     id: Math.random().toString(),
@@ -20,6 +23,7 @@ let products: IProduct[] = [
     imageUrl:
       "https://www.theeastnashvillian.com/wp-content/uploads/2020/07/Placeholder-template-image-1.jpg",
     price: 444.5,
+    userId: 1,
   },
 ];
 
@@ -52,10 +56,18 @@ export class ProductServiceInMemory implements IProductService {
     products = products.filter((p) => p.id !== productId);
   }
 }
+//#endregion
 
 export class ProductServiceSqlDb implements IProductService {
-  public async getProducts(): Promise<IProduct[]> {
-    const dbModels = await Product.findAll();
+  public async getProducts(searchParam: IProductSearchParam): Promise<IProduct[]> {
+    const filter: FindOptions<IProductDbModel> = {};
+
+    if (searchParam.userId) {
+      filter.where = {};
+      filter.where.userId = searchParam.userId;
+    }
+
+    const dbModels = await Product.findAll(filter);
 
     return dbModels.map((m) => productMapper.toModelFromDbModel(m.get()));
   }
@@ -66,6 +78,7 @@ export class ProductServiceSqlDb implements IProductService {
       imageUrl: product.imageUrl,
       price: product.price,
       title: product.title,
+      userId: product.userId,
     });
   }
 
