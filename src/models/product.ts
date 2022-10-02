@@ -1,3 +1,5 @@
+import { IProductDbModel } from "../database/sql/models/product";
+
 export interface IProduct {
   id: string;
   title: string;
@@ -14,6 +16,15 @@ export const productMapper = {
       description: item.description || '',
       price: Number(item.price) || 0,
       id: item.id || '',
+    }
+  },
+  toModelFromDbModel(item: IProductDbModel): IProduct {
+    return {
+      description: item.description,
+      id: item.id.toString(),
+      imageUrl: item.imageUrl,
+      price: item.price,
+      title: item.title,
     }
   }
 };

@@ -1,9 +1,9 @@
 import { IProduct } from "../../models/product";
 
 export interface IProductService {
-  getProducts(): IProduct[];
-  createProduct(product: IProduct): void;
-  getProduct(id: string): IProduct | undefined;
-  updateProduct(product: IProduct): void;
-  deleteProduct(id: string): void;
+  getProducts(): Promise<IProduct[]>;
+  createProduct(product: IProduct): Promise<void>;
+  getProduct(id: string): Promise<IProduct | undefined>;
+  updateProduct(product: IProduct): Promise<void>;
+  deleteProduct(id: string): Promise<void>;
 }

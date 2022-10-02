@@ -8,8 +8,8 @@ const cart: ICart = {
 };
 
 export class CartServiceInMemory implements ICartService {
-  public addToCart(productId: string): void {
-    const product = productServiceInstance.getProduct(productId);
+  public async addToCart(productId: string): Promise<void> {
+    const product = await productServiceInstance.getProduct(productId);
 
     if (!product) {
       return;
@@ -29,11 +29,11 @@ export class CartServiceInMemory implements ICartService {
     cart.totalPrice += product.price;
   }
 
-  public getCart(cartId: string): ICart {
+  public async getCart(cartId: string): Promise<ICart | undefined> {
     return cart;
   }
 
-  public deleteFromCart(productId: string): void {
+  public async deleteFromCart(productId: string): Promise<void> {
     cart.products = cart.products.filter((p) => {
       if (p.product.id === productId) {
         cart.totalPrice -= p.quantity * p.product.price;

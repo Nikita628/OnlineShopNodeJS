@@ -1,10 +1,8 @@
-import { RowDataPacket } from "mysql2";
-import { IProduct } from "../../models/product";
-import { dbPool } from "./sql";
+import { db } from "./sql";
+import { IProductDbModelCreation, Product } from "./models/product";
 
-const products: IProduct[] = [
+const products: IProductDbModelCreation[] = [
   {
-    id: '',
     title: "adipisicing",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, modi!",
@@ -13,7 +11,6 @@ const products: IProduct[] = [
     price: 123.33,
   },
   {
-    id: '',
     title: "amet consectetur",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, modi!",
@@ -23,37 +20,22 @@ const products: IProduct[] = [
   },
 ];
 
-export async function seed() {
+export async function seedSqlDb() {
   try {
-    //await dbPool.execute('DROP TABLE products;');
+    await db.sync();
 
-    await dbPool.execute(`
-    CREATE TABLE IF NOT EXISTS products (
-        id int NOT NULL AUTO_INCREMENT,
-        title varchar(255) NOT NULL,
-        imageUrl varchar(2000) NOT NULL,
-        description TEXT NOT NULL,
-        price double not null,
-        PRIMARY KEY (Id)
-      );
-    `);
+    const count = await Product.count();
 
-    const [rows] = await dbPool.execute(`
-        SELECT COUNT(*) as count FROM products;
-    `);
-
-    if ((rows as RowDataPacket[])[0].count === 0) {
-      // if table is empty, seed it
-        for (const p of products) {
-            await dbPool.execute(`
-                INSERT INTO products (title, imageUrl, description, price)
-                VALUES ('${p.title}', '${p.imageUrl}', '${p.description}', ${p.price});
-            `);
-        } 
+    if (count === 0) {
+      for (const p of products) {
+        await Product.create({
+          description: p.description,
+          imageUrl: p.imageUrl,
+          price: p.price,
+          title: p.title,
+        });
+      }
     }
-
-    //const [productsRows] = await dbPool.execute('select * from products');
-    //console.log(productsRows);
   } catch (error) {
     console.error("seed error: ", error);
   }
