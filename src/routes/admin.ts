@@ -9,35 +9,35 @@ adminRouter.get("/create-product", (req, res, next) => {
   res.render("admin/create-product", { pageTitle: "Create Product" });
 });
 
-adminRouter.post("/create-product", (req, res, next) => {
+adminRouter.post("/create-product", async (req, res, next) => {
   const product: IProduct = productMapper.toModel(req.body);
-  productServiceInstance.createProduct(product);
+  await productServiceInstance.createProduct(product);
   res.redirect("/admin/product-list");
 });
 
-adminRouter.get("/product-list", (req, res, next) => {
+adminRouter.get("/product-list", async (req, res, next) => {
   res.render("admin/admin-product-list", {
     pageTitle: "Admin Products",
-    products: productServiceInstance.getProducts(),
+    products: await productServiceInstance.getProducts(),
   });
 });
 
-adminRouter.get("/edit-product/:productId", (req, res, next) => {
+adminRouter.get("/edit-product/:productId", async (req, res, next) => {
   res.render('admin/edit-product', {
     pageTitle: 'Edit Product',
-    product: productServiceInstance.getProduct(req.params.productId),
+    product: await productServiceInstance.getProduct(req.params.productId),
   })
 });
 
-adminRouter.post("/edit-product", (req, res, next) => {
+adminRouter.post("/edit-product", async (req, res, next) => {
   const product: IProduct = productMapper.toModel(req.body);
-  productServiceInstance.updateProduct(product);
+  await productServiceInstance.updateProduct(product);
   res.redirect("/admin/product-list");
 });
 
-adminRouter.post("/delete-product", (req, res, next) => {
+adminRouter.post("/delete-product", async (req, res, next) => {
   productServiceInstance.deleteProduct(req.body.productId);
-  cartServiceInstance.deleteFromCart(req.body.productId);
+  await cartServiceInstance.deleteFromCart(req.body.productId);
   res.redirect("/admin/product-list");
 });
 

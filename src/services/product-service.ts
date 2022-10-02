@@ -55,11 +55,9 @@ export class ProductServiceInMemory implements IProductService {
 
 export class ProductServiceSqlDb implements IProductService {
   public async getProducts(): Promise<IProduct[]> {
-    const res = await Product.findAll();
+    const dbModels = await Product.findAll();
 
-    console.log("getProducts", res);
-
-    return res.map((m) => productMapper.toModelFromDbModel(m as any));
+    return dbModels.map((m) => productMapper.toModelFromDbModel(m.get()));
   }
 
   public async createProduct(product: IProduct): Promise<void> {
@@ -72,26 +70,29 @@ export class ProductServiceSqlDb implements IProductService {
   }
 
   public async getProduct(id: string): Promise<IProduct | undefined> {
-    const res = await Product.findByPk(id);
+    const dbModel = await Product.findOne({ where: { id } });
 
-    return res ? productMapper.toModelFromDbModel(res as any) : undefined;
+    return dbModel
+      ? productMapper.toModelFromDbModel(dbModel.get())
+      : undefined;
   }
 
   public async updateProduct(product: IProduct): Promise<void> {
-    const existing = products.find((p) => p.id === product.id);
-
-    if (existing) {
-      existing.description = product.description;
-      existing.imageUrl = product.imageUrl;
-      existing.price = product.price;
-      existing.title = product.title;
-    }
+    await Product.update(
+      {
+        description: product.description,
+        imageUrl: product.imageUrl,
+        price: product.price,
+        title: product.title,
+      },
+      { where: { id: product.id } }
+    );
   }
 
   public async deleteProduct(productId: string): Promise<void> {
-    products = products.filter((p) => p.id !== productId);
+    await Product.destroy({ where: { id: productId } });
   }
 }
 
 export const productServiceInstance: IProductService =
-  new ProductServiceInMemory();
+  new ProductServiceSqlDb();

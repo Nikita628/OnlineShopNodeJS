@@ -4,24 +4,24 @@ import { productServiceInstance } from "../services/product-service";
 
 const shopRouter = express.Router();
 
-shopRouter.get("/", (req, res, next) => {
+shopRouter.get("/", async (req, res, next) => {
   res.render("shop/index", {
     pageTitle: "Shop",
-    products: productServiceInstance.getProducts(),
+    products: await productServiceInstance.getProducts(),
   });
 });
 
-shopRouter.get("/product-list", (req, res, next) => {
+shopRouter.get("/product-list", async (req, res, next) => {
   res.render("shop/product-list", {
     pageTitle: "Product List",
-    products: productServiceInstance.getProducts(),
+    products: await productServiceInstance.getProducts(),
   });
 });
 
-shopRouter.get("/product-details/:id", (req, res, next) => {
+shopRouter.get("/product-details/:id", async (req, res, next) => {
   res.render("shop/product-details", {
     pageTitle: "Product Details",
-    product: productServiceInstance.getProduct(req.params.id),
+    product: await productServiceInstance.getProduct(req.params.id),
   });
 });
 
@@ -31,22 +31,22 @@ shopRouter.get("/checkout", (req, res, next) => {
   });
 });
 
-shopRouter.get("/cart", (req, res, next) => {
+shopRouter.get("/cart", async (req, res, next) => {
   res.render("shop/cart", {
     pageTitle: "Cart",
-    cart: cartServiceInstance.getCart(''),
+    cart: await cartServiceInstance.getCart(''),
   });
 });
 
-shopRouter.post("/cart", (req, res, next) => {
+shopRouter.post("/cart", async (req, res, next) => {
   const productId: string = req.body.productId;
-  cartServiceInstance.addToCart(productId);
+  await cartServiceInstance.addToCart(productId);
   res.redirect('/cart');
 });
 
-shopRouter.post("/delete-from-cart", (req, res, next) => {
+shopRouter.post("/delete-from-cart", async (req, res, next) => {
   const productId: string = req.body.productId;
-  cartServiceInstance.deleteFromCart(productId);
+  await cartServiceInstance.deleteFromCart(productId);
   res.redirect('/cart');
 });
 
