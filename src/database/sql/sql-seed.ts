@@ -1,8 +1,7 @@
-import { db } from "./sql";
 import { IProductDbModelCreation, Product } from "./models/product";
 import { User } from "./models/user";
 import { DEFAULT_USER_ID } from "../../utils/constants";
-import { CartItem } from "./models/cart-item";
+import { CartItem, ICartItemDbModelCreation } from "./models/cart-item";
 import { Cart } from "./models/cart";
 
 const products: IProductDbModelCreation[] = [
@@ -30,11 +29,14 @@ export async function seedSqlDb() {
   try {
     // Product.belongsTo(User, { constraints: true });
     // await db.sync({ force: true });
+    
+    //await recreateTables();
+    //await fillTables();
 
-    // await recreateTables();
-    // await fillTables();
+    console.log('\x1b[32m%s\x1b[0m', 'seeding DB finished');
   } catch (error) {
-    console.error("seed error: ", error);
+    console.log('\x1b[31m', "seed error:");
+    console.log(error);
   }
 }
 
@@ -54,30 +56,35 @@ async function fillTables(): Promise<void> {
   const createdProductIds: number[] = [];
 
   if (productsCount === 0) {
-    for (const p of products) {
-      const createdProduct = await Product.create({
+    const createdProducts = await Product.bulkCreate(
+      products.map<IProductDbModelCreation>((p) => ({
         description: p.description,
         imageUrl: p.imageUrl,
         price: p.price,
         title: p.title,
         userId: p.userId,
-      });
-      createdProductIds.push(createdProduct.get().id);
-    }
+      }))
+    );
+
+    createdProductIds.push(...createdProducts.map((p) => p.get().id));
   }
 
   // populate carts
-  const createdCart = await Cart.create({
-    userId: DEFAULT_USER_ID,
-  });
+  const cartsCount = await Cart.count();
 
-  // populate cart items
-  for (const productId of createdProductIds) {
-    await CartItem.create({
-      cartId: createdCart.get().id,
-      productId: productId,
-      quantity: 2,
+  if (cartsCount === 0) {
+    const createdCart = await Cart.create({
+      userId: DEFAULT_USER_ID,
     });
+
+    // populate cart items
+    await CartItem.bulkCreate(
+      createdProductIds.map<ICartItemDbModelCreation>((id) => ({
+        cartId: createdCart.get().id,
+        productId: id,
+        quantity: 2,
+      }))
+    );
   }
 }
 

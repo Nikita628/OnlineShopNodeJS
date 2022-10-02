@@ -50,7 +50,7 @@ export class CartServiceSqlDb implements ICartService {
     if (cartFromDb) {
       const cartItems = await CartItem.findAll({
         where: { cartId: cartFromDb.get().id },
-        include: [{ model: Product, as: 'product' }],
+        include: [{ model: Product, as: "product" }],
       });
       cartFromDb.get().cartItems = cartItems.map((i) => i.get());
 

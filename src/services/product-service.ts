@@ -1,4 +1,8 @@
-import { IProduct, IProductSearchParam, productMapper } from "../models/product";
+import {
+  IProduct,
+  IProductSearchParam,
+  productMapper,
+} from "../models/product";
 import { IProductService } from "./contracts/product-service";
 import { IProductDbModel, Product } from "../database/sql/models/product";
 import { FindOptions } from "sequelize";
@@ -59,7 +63,9 @@ export class ProductServiceInMemory implements IProductService {
 //#endregion
 
 export class ProductServiceSqlDb implements IProductService {
-  public async getProducts(searchParam: IProductSearchParam): Promise<IProduct[]> {
+  public async getProducts(
+    searchParam: IProductSearchParam
+  ): Promise<IProduct[]> {
     const filter: FindOptions<IProductDbModel> = {};
 
     if (searchParam.userId) {
