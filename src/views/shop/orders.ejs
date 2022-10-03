@@ -6,7 +6,17 @@
 <body>
     <%- include('../includes/navigation.ejs') %>
 
-    <p>orders</p>
+    <main>
+        <% if (orders.length) { %>
+            <ul>
+                <% for (o of orders) { %>
+                    <li> <%= o.totalPrice %> </li>
+                <% } %>
+            </ul>
+        <% } else { %>
+            <p>No Orders Placed</p>
+        <% } %>
+    </main>
     
     <%- include('../includes/end.ejs') %>
     

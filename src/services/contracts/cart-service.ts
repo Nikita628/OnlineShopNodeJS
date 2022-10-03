@@ -1,7 +1,8 @@
 import { ICart } from "../../models/cart";
 
 export interface ICartService {
-  addToCart(userId: number, productId: string): Promise<void>;
+  addProductToCart(userId: number, productId: string): Promise<void>;
   getCart(userId: number): Promise<ICart | undefined>;
-  deleteFromCart(userId: number, productId: string): Promise<void>;
+  deleteProductFromCart(userId: number, productId: string): Promise<void>;
+  deleteCart(userId: number): Promise<void>;
 }

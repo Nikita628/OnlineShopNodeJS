@@ -1,7 +1,7 @@
 import express from "express";
-import { cartServiceInstance } from "../services/cart-service";
-import { orderServiceInstance } from "../services/order-service";
-import { productServiceInstance } from "../services/product-service";
+import { cartService } from "../services";
+import { orderService } from "../services";
+import { productService } from "../services";
 import { DEFAULT_USER_ID } from "../utils/constants";
 
 const shopRouter = express.Router();
@@ -9,21 +9,21 @@ const shopRouter = express.Router();
 shopRouter.get("/", async (req, res, next) => {
   res.render("shop/index", {
     pageTitle: "Shop",
-    products: await productServiceInstance.getProducts({}),
+    products: await productService.getProducts({}),
   });
 });
 
 shopRouter.get("/product-list", async (req, res, next) => {
   res.render("shop/product-list", {
     pageTitle: "Product List",
-    products: await productServiceInstance.getProducts({}),
+    products: await productService.getProducts({}),
   });
 });
 
 shopRouter.get("/product-details/:id", async (req, res, next) => {
   res.render("shop/product-details", {
     pageTitle: "Product Details",
-    product: await productServiceInstance.getProduct(req.params.id),
+    product: await productService.getProduct(req.params.id),
   });
 });
 
@@ -36,32 +36,36 @@ shopRouter.get("/checkout", (req, res, next) => {
 shopRouter.get("/cart", async (req, res, next) => {
   res.render("shop/cart", {
     pageTitle: "Cart",
-    cart: await cartServiceInstance.getCart(DEFAULT_USER_ID),
+    cart: await cartService.getCart(DEFAULT_USER_ID),
   });
 });
 
 shopRouter.post("/cart", async (req, res, next) => {
   const productId: string = req.body.productId;
-  await cartServiceInstance.addToCart(DEFAULT_USER_ID, productId);
+  await cartService.addProductToCart(DEFAULT_USER_ID, productId);
   res.redirect('/cart');
 });
 
 shopRouter.post("/delete-from-cart", async (req, res, next) => {
   const productId: string = req.body.productId;
-  await cartServiceInstance.deleteFromCart(DEFAULT_USER_ID, productId);
+  await cartService.deleteProductFromCart(DEFAULT_USER_ID, productId);
   res.redirect('/cart');
 });
 
 shopRouter.get("/orders", async (req, res, next) => {
-  const orders = await orderServiceInstance.getOrders(DEFAULT_USER_ID);
+  const orders = await orderService.getOrders(DEFAULT_USER_ID);
 
   res.render("shop/orders", {
     pageTitle: "Orders",
+    orders,
   });
 });
 
 shopRouter.post("/order", async (req, res, next) => {
-  await orderServiceInstance.order(DEFAULT_USER_ID);
+  await orderService.order(DEFAULT_USER_ID);
+  await cartService.deleteCart(DEFAULT_USER_ID);
+
+  res.redirect('/orders');
 });
 
 export { shopRouter };

@@ -1,10 +1,10 @@
-import { Cart } from "../database/sql/models/cart";
-import { CartItem } from "../database/sql/models/cart-item";
-import { IOrderDbModel, Order } from "../database/sql/models/order";
-import { OrderItem } from "../database/sql/models/order-item";
-import { Product } from "../database/sql/models/product";
-import { IOrder, orderMapper } from "../models/order";
-import { IOrderService } from "./contracts/order-service";
+import { Cart } from "../../database/sql/models/cart";
+import { CartItem } from "../../database/sql/models/cart-item";
+import { IOrderDbModel, Order } from "../../database/sql/models/order";
+import { OrderItem } from "../../database/sql/models/order-item";
+import { Product } from "../../database/sql/models/product";
+import { IOrder, orderMapper } from "../../models/order";
+import { IOrderService } from "../contracts/order-service";
 
 export class OrderServiceSqlDb implements IOrderService {
   async order(userId: number): Promise<void> {
@@ -68,5 +68,3 @@ export class OrderServiceSqlDb implements IOrderService {
     return ordersFromDb.map(o => orderMapper.toModelFromDbModel(o.get()));
   }
 }
-
-export const orderServiceInstance: IOrderService = new OrderServiceSqlDb();
