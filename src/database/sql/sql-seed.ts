@@ -3,6 +3,8 @@ import { User } from "./models/user";
 import { DEFAULT_USER_ID } from "../../utils/constants";
 import { CartItem, ICartItemDbModelCreation } from "./models/cart-item";
 import { Cart } from "./models/cart";
+import { Order } from "./models/order";
+import { IOrderItemDbModelCreation, OrderItem } from "./models/order-item";
 
 const products: IProductDbModelCreation[] = [
   {
@@ -86,9 +88,29 @@ async function fillTables(): Promise<void> {
       }))
     );
   }
+
+  // populate orders
+  const ordersCount = await Order.count();
+
+  if (ordersCount === 0) {
+    const createdOrder = await Order.create({
+      userId: DEFAULT_USER_ID,
+    });
+
+    // populate order items
+    await OrderItem.bulkCreate(
+      createdProductIds.map<IOrderItemDbModelCreation>((id) => ({
+        orderId: createdOrder.get().id,
+        productId: id,
+        quantity: 3,
+      }))
+    );
+  }
 }
 
 async function recreateTables(): Promise<void> {
+  await OrderItem.drop();
+  await Order.drop();
   await CartItem.drop();
   await Cart.drop();
   await Product.drop();
@@ -98,4 +120,6 @@ async function recreateTables(): Promise<void> {
   await Product.sync();
   await Cart.sync();
   await CartItem.sync();
+  await Order.sync();
+  await OrderItem.sync();
 }

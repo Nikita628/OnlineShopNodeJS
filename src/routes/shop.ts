@@ -1,5 +1,6 @@
 import express from "express";
 import { cartServiceInstance } from "../services/cart-service";
+import { orderServiceInstance } from "../services/order-service";
 import { productServiceInstance } from "../services/product-service";
 import { DEFAULT_USER_ID } from "../utils/constants";
 
@@ -51,10 +52,16 @@ shopRouter.post("/delete-from-cart", async (req, res, next) => {
   res.redirect('/cart');
 });
 
-shopRouter.get("/orders", (req, res, next) => {
+shopRouter.get("/orders", async (req, res, next) => {
+  const orders = await orderServiceInstance.getOrders(DEFAULT_USER_ID);
+
   res.render("shop/orders", {
     pageTitle: "Orders",
   });
+});
+
+shopRouter.post("/order", async (req, res, next) => {
+  await orderServiceInstance.order(DEFAULT_USER_ID);
 });
 
 export { shopRouter };

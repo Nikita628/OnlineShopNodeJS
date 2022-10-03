@@ -2,6 +2,7 @@ import sequilize, { Model } from "sequelize";
 import { db } from "../sql";
 import { Cart } from "./cart";
 import { CartItem } from "./cart-item";
+import { Order } from "./order";
 import { User } from "./user";
 
 export interface IProductDbModel {
@@ -52,6 +53,7 @@ const Product = db.define<Model<IProductDbModel, IProductDbModelCreation>>(
   }
 );
 
-Product.belongsToMany(Cart, { through: 'cart_item' });
+Product.belongsToMany(Cart, { through: "cart_item" });
+Product.belongsToMany(Order, { through: "order_item" });
 
 export { Product };
