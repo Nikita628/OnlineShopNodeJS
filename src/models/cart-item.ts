@@ -1,4 +1,4 @@
-import { ICartItemDbModel } from "../database/sql/models/cart-item";
+import { ICartItemDbModel } from "../database/constracts/cart-item";
 import { IProduct, productMapper } from "./product";
 
 export interface ICartItem {

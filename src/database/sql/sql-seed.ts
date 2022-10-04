@@ -1,10 +1,13 @@
-import { IProductDbModelCreation, Product } from "./models/product";
+import { Product } from "./models/product";
 import { User } from "./models/user";
 import { DEFAULT_USER_ID } from "../../utils/constants";
-import { CartItem, ICartItemDbModelCreation } from "./models/cart-item";
+import { CartItem } from "./models/cart-item";
 import { Cart } from "./models/cart";
 import { Order } from "./models/order";
-import { IOrderItemDbModelCreation, OrderItem } from "./models/order-item";
+import { OrderItem } from "./models/order-item";
+import { IProductDbModelCreation } from "../constracts/product";
+import { ICartItemDbModelCreation } from "../constracts/cart-item";
+import { IOrderItemDbModelCreation } from "../constracts/order-item";
 
 const products: IProductDbModelCreation[] = [
   {
@@ -29,15 +32,12 @@ const products: IProductDbModelCreation[] = [
 
 export async function seedSqlDb() {
   try {
-    // Product.belongsTo(User, { constraints: true });
-    // await db.sync({ force: true });
-    
-    //await recreateTables();
-    //await fillTables();
+    await recreateTables();
+    await fillTables();
 
-    console.log('\x1b[32m%s\x1b[0m', 'seeding DB finished');
+    console.log("\x1b[32m%s\x1b[0m", "seeding DB finished");
   } catch (error) {
-    console.log('\x1b[31m', "seed error:");
+    console.log("\x1b[31m", "seed error:");
     console.log(error);
   }
 }

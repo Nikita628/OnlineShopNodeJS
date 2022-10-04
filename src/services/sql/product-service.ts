@@ -4,8 +4,9 @@ import {
   productMapper,
 } from "../../models/product";
 import { IProductService } from "../contracts/product-service";
-import { IProductDbModel, Product } from "../../database/sql/models/product";
+import { Product } from "../../database/sql/models/product";
 import { FindOptions } from "sequelize";
+import { IProductDbModel } from "../../database/constracts/product";
 
 export class ProductServiceSqlDb implements IProductService {
   public async getProducts(

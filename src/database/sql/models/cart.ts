@@ -1,16 +1,7 @@
 import sequilize, { Model } from "sequelize";
+import { ICartDbModel, ICartDbModelCreation } from "../../constracts/cart";
 import { db } from "../sql";
-import { ICartItemDbModel } from "./cart-item";
-import { IUserDbModel, User } from "./user";
-
-export interface ICartDbModel {
-  id: number;
-  userId: number;
-  user?: IUserDbModel;
-  cartItems?: ICartItemDbModel[];
-}
-
-export interface ICartDbModelCreation extends Omit<ICartDbModel, "id"> {}
+import { User } from "./user";
 
 const Cart = db.define<Model<ICartDbModel, ICartDbModelCreation>>("cart", {
   id: {

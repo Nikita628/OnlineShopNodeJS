@@ -1,4 +1,4 @@
-import { IProductDbModel } from "../database/sql/models/product";
+import { IProductDbModel } from "../database/constracts/product";
 import { DEFAULT_USER_ID } from "../utils/constants";
 
 export interface IProduct {

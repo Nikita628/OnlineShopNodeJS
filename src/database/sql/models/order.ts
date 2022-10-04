@@ -1,16 +1,7 @@
 import sequilize, { Model } from "sequelize";
+import { IOrderDbModel, IOrderDbModelCreation } from "../../constracts/order";
 import { db } from "../sql";
-import { IOrderItemDbModel } from "./order-item";
-import { IUserDbModel, User } from "./user";
-
-export interface IOrderDbModel {
-  id: number;
-  userId: number;
-  user?: IUserDbModel;
-  orderItems?: IOrderItemDbModel[];
-}
-
-export interface IOrderDbModelCreation extends Omit<IOrderDbModel, "id"> {}
+import { User } from "./user";
 
 const Order = db.define<Model<IOrderDbModel, IOrderDbModelCreation>>("order", {
   id: {

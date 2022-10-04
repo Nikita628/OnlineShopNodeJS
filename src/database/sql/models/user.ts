@@ -1,13 +1,6 @@
 import sequilize, { Model } from "sequelize";
+import { IUserDbModel, IUserDbModelCreation } from "../../constracts/user";
 import { db } from "../sql";
-
-export interface IUserDbModel {
-  id: number;
-  name: string;
-  email: string;
-}
-
-export interface IUserDbModelCreation extends Omit<IUserDbModel, "id"> {}
 
 const User = db.define<Model<IUserDbModel, IUserDbModelCreation>>("user", {
   id: {

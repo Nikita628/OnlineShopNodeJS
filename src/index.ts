@@ -4,10 +4,14 @@ import path from "path";
 import { adminRouter } from "./routes/admin";
 import { shopRouter } from "./routes/shop";
 import { seedSqlDb } from "./database/sql/sql-seed";
+import { config } from "./config";
+import { connectMongo } from "./database/nosql/nosql";
 
-(async function() {
-  await seedSqlDb();
-})();
+if (config.db === "sql") {
+  seedSqlDb();
+} else if (config.db === 'nosql') {
+  connectMongo();
+}
 
 const app = express();
 

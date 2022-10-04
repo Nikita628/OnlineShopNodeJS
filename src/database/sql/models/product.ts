@@ -1,20 +1,9 @@
 import sequilize, { Model } from "sequelize";
+import { IProductDbModel, IProductDbModelCreation } from "../../constracts/product";
 import { db } from "../sql";
 import { Cart } from "./cart";
-import { CartItem } from "./cart-item";
 import { Order } from "./order";
 import { User } from "./user";
-
-export interface IProductDbModel {
-  id: number;
-  title: string;
-  price: number;
-  imageUrl: string;
-  description: string;
-  userId: number;
-}
-
-export interface IProductDbModelCreation extends Omit<IProductDbModel, "id"> {}
 
 const Product = db.define<Model<IProductDbModel, IProductDbModelCreation>>(
   "product",

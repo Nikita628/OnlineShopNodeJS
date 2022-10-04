@@ -1,6 +1,7 @@
+import { IOrderDbModel } from "../../database/constracts/order";
 import { Cart } from "../../database/sql/models/cart";
 import { CartItem } from "../../database/sql/models/cart-item";
-import { IOrderDbModel, Order } from "../../database/sql/models/order";
+import { Order } from "../../database/sql/models/order";
 import { OrderItem } from "../../database/sql/models/order-item";
 import { Product } from "../../database/sql/models/product";
 import { IOrder, orderMapper } from "../../models/order";
