@@ -6,12 +6,16 @@ import { shopRouter } from "./routes/shop";
 import { seedSqlDb } from "./database/sql/sql-seed";
 import { config } from "./config";
 import { connectMongo } from "./database/nosql/nosql";
+import { seedNoSqlDb } from "./database/nosql/nosql-seed";
 
-if (config.db === "sql") {
-  seedSqlDb();
-} else if (config.db === 'nosql') {
-  connectMongo();
-}
+(async function(){
+  if (config.db === "sql") {
+    seedSqlDb();
+  } else if (config.db === 'nosql') {
+    await connectMongo();
+    await seedNoSqlDb();
+  }
+})()
 
 const app = express();
 

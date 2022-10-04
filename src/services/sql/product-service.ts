@@ -6,13 +6,13 @@ import {
 import { IProductService } from "../contracts/product-service";
 import { Product } from "../../database/sql/models/product";
 import { FindOptions } from "sequelize";
-import { IProductDbModel } from "../../database/constracts/product";
+import { IProductSqlDbModel } from "../../database/contracts/product";
 
 export class ProductServiceSqlDb implements IProductService {
   public async getProducts(
     searchParam: IProductSearchParam
   ): Promise<IProduct[]> {
-    const filter: FindOptions<IProductDbModel> = {};
+    const filter: FindOptions<IProductSqlDbModel> = {};
 
     if (searchParam.userId) {
       filter.where = {};

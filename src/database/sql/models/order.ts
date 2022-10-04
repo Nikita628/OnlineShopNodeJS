@@ -1,5 +1,5 @@
 import sequilize, { Model } from "sequelize";
-import { IOrderDbModel, IOrderDbModelCreation } from "../../constracts/order";
+import { IOrderDbModel, IOrderDbModelCreation } from "../../contracts/order";
 import { db } from "../sql";
 import { User } from "./user";
 

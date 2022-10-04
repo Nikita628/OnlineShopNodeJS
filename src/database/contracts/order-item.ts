@@ -1,11 +1,11 @@
-import { IProductDbModel } from "./product";
+import { IProductSqlDbModel } from "./product";
 
 export interface IOrderItemDbModel {
   id: number;
   orderId: number;
   productId: number;
   quantity: number;
-  product?: IProductDbModel;
+  product?: IProductSqlDbModel;
 }
 
 export interface IOrderItemDbModelCreation

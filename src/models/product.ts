@@ -1,4 +1,4 @@
-import { IProductDbModel } from "../database/constracts/product";
+import { IProductSqlDbModel } from "../database/contracts/product";
 import { DEFAULT_USER_ID } from "../utils/constants";
 
 export interface IProduct {
@@ -25,7 +25,7 @@ export const productMapper = {
       userId: item.userId || DEFAULT_USER_ID,
     }
   },
-  toModelFromDbModel(item: IProductDbModel): IProduct {
+  toModelFromDbModel(item: IProductSqlDbModel): IProduct {
     return {
       description: item.description,
       id: item.id.toString(),

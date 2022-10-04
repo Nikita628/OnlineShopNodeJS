@@ -1,4 +1,4 @@
-import { IOrderDbModel } from "../../database/constracts/order";
+import { IOrderDbModel } from "../../database/contracts/order";
 import { Cart } from "../../database/sql/models/cart";
 import { CartItem } from "../../database/sql/models/cart-item";
 import { Order } from "../../database/sql/models/order";

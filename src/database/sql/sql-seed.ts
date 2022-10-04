@@ -5,11 +5,11 @@ import { CartItem } from "./models/cart-item";
 import { Cart } from "./models/cart";
 import { Order } from "./models/order";
 import { OrderItem } from "./models/order-item";
-import { IProductDbModelCreation } from "../constracts/product";
-import { ICartItemDbModelCreation } from "../constracts/cart-item";
-import { IOrderItemDbModelCreation } from "../constracts/order-item";
+import { IProductSqlDbModelForCreate } from "../contracts/product";
+import { ICartItemDbModelCreation } from "../contracts/cart-item";
+import { IOrderItemDbModelCreation } from "../contracts/order-item";
 
-const products: IProductDbModelCreation[] = [
+const products: IProductSqlDbModelForCreate[] = [
   {
     title: "adipisicing",
     description:
@@ -59,7 +59,7 @@ async function fillTables(): Promise<void> {
 
   if (productsCount === 0) {
     const createdProducts = await Product.bulkCreate(
-      products.map<IProductDbModelCreation>((p) => ({
+      products.map<IProductSqlDbModelForCreate>((p) => ({
         description: p.description,
         imageUrl: p.imageUrl,
         price: p.price,

@@ -1,5 +1,5 @@
 import sequilize, { Model } from "sequelize";
-import { ICartItemDbModel, ICartItemDbModelCreation } from "../../constracts/cart-item";
+import { ICartItemDbModel, ICartItemDbModelCreation } from "../../contracts/cart-item";
 import { db } from "../sql";
 import { Cart } from "./cart";
 import { Product } from "./product";

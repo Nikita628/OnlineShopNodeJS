@@ -1,5 +1,5 @@
 import sequilize, { Model } from "sequelize";
-import { IUserDbModel, IUserDbModelCreation } from "../../constracts/user";
+import { IUserDbModel, IUserDbModelCreation } from "../../contracts/user";
 import { db } from "../sql";
 
 const User = db.define<Model<IUserDbModel, IUserDbModelCreation>>("user", {
