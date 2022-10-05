@@ -1,3 +1,5 @@
+import { IUserNoSqlDbModel } from "./user";
+
 export interface IBaseProductDbModel {
   title: string;
   price: number;
@@ -10,11 +12,10 @@ export interface IProductSqlDbModel extends IBaseProductDbModel {
   userId: number;
 }
 
-export interface IProductSqlDbModelForCreate extends Omit<IProductSqlDbModel, "id"> {}
+export interface IProductSqlDbModelForCreate
+  extends Omit<IProductSqlDbModel, "id"> {}
 
 export interface IProductNoSqlDbModel extends IBaseProductDbModel {
   _id: string;
-  userId: string;
+  userId: string | IUserNoSqlDbModel;
 }
-
-export interface IProductNoSqlDbModelForCreate extends Omit<IProductNoSqlDbModel, "_id"> {}

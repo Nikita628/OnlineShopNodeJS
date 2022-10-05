@@ -1,8 +1,7 @@
-import { DEFAULT_USER_ID } from "../../utils/constants";
-import { IProductNoSqlDbModelForCreate } from "../contracts/product";
 import { ProductModel } from "./models/product";
+import { UserModel } from "./models/user";
 
-const products: IProductNoSqlDbModelForCreate[] = [
+const products = [
   {
     title: "adipisicing",
     description:
@@ -10,7 +9,6 @@ const products: IProductNoSqlDbModelForCreate[] = [
     imageUrl:
       "https://www.theeastnashvillian.com/wp-content/uploads/2020/07/Placeholder-template-image-1.jpg",
     price: 123.33,
-    userId: DEFAULT_USER_ID.toString(),
   },
   {
     title: "amet consectetur",
@@ -19,7 +17,6 @@ const products: IProductNoSqlDbModelForCreate[] = [
     imageUrl:
       "https://www.theeastnashvillian.com/wp-content/uploads/2020/07/Placeholder-template-image-1.jpg",
     price: 444.5,
-    userId: DEFAULT_USER_ID.toString(),
   },
 ];
 
@@ -27,8 +24,27 @@ export async function seedNoSqlDb() {
   try {
     // await clearDb();
 
+    let adminUser = await UserModel.findOne({
+      email: { $eq: "admin@admin.com" },
+    });
+
+    if (!adminUser) {
+      adminUser = await UserModel.create({
+        email: "admin@admin.com",
+        name: "admin",
+        cart: {
+          cartItems: [],
+        }
+      });
+    }
+
     if ((await ProductModel.count()) === 0) {
-        await ProductModel.insertMany(products);
+      const productsToInsert = products.map((p) => ({
+        ...p,
+        userId: adminUser!.toObject()._id,
+      }));
+
+      await ProductModel.insertMany(productsToInsert);
     }
 
     console.log("\x1b[32m%s\x1b[0m", "seeding DB finished");
@@ -39,5 +55,6 @@ export async function seedNoSqlDb() {
 }
 
 async function clearDb() {
-    await ProductModel.deleteMany();
+  await UserModel.deleteMany();
+  await ProductModel.deleteMany();
 }

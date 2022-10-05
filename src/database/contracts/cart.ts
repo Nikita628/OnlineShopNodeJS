@@ -14,8 +14,5 @@ export interface ICartSqlDbModelForCreate
   extends Omit<ICartSqlDbModel, "id" | "user" | "cartItems"> {}
 
 export interface ICartNoSqlDbModel extends ICartBaseDbModel {
-  _id: string;
-  userId: string;
-  user?: IUserNoSqlDbModel;
-  cartItems?: ICartItemNoSqlDbModel[];
+  cartItems: ICartItemNoSqlDbModel[];
 }

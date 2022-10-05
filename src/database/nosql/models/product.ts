@@ -6,9 +6,10 @@ const schema = new Schema<IProductNoSqlDbModel>({
   description: { type: String, required: true },
   imageUrl: { type: String, required: true },
   price: { type: Number, required: true },
+  userId: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
 });
 
-export const ProductModel = mongoose.model("Product", schema);
+export const ProductModel = mongoose.model<IProductNoSqlDbModel>("Product", schema);
 
  
  
