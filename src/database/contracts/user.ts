@@ -1,7 +1,14 @@
-export interface IUserDbModel {
-  id: number;
+export interface IUserBaseDbModel {
   name: string;
   email: string;
 }
 
-export interface IUserDbModelCreation extends Omit<IUserDbModel, "id"> {}
+export interface IUserSqlDbModel extends IUserBaseDbModel {
+  id: number;
+}
+
+export interface IUserSqlDbModelForCreate extends Omit<IUserSqlDbModel, 'id'> {}
+
+export interface IUserNoSqlDbModel extends IUserBaseDbModel {
+  _id: string;
+}

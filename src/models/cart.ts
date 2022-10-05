@@ -1,4 +1,4 @@
-import { ICartDbModel } from "../database/contracts/cart";
+import { ICartSqlDbModel } from "../database/contracts/cart";
 import { cartItemMapper, ICartItem } from "./cart-item";
 
 export interface ICart {
@@ -7,7 +7,7 @@ export interface ICart {
 }
 
 export const cartMapper = {
-  toModelFromDbModel(item: ICartDbModel): ICart {
+  toModelFromDbModel(item: ICartSqlDbModel): ICart {
     let totalPrice = 0;
     let cartItems: Array<ICartItem> = [];
 

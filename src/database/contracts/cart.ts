@@ -1,11 +1,21 @@
-import { ICartItemDbModel } from "./cart-item";
-import { IUserDbModel } from "./user";
+import { ICartItemNoSqlDbModel, ICartItemSqlDbModel } from "./cart-item";
+import { IUserNoSqlDbModel, IUserSqlDbModel } from "./user";
 
-export interface ICartDbModel {
+export interface ICartBaseDbModel {}
+
+export interface ICartSqlDbModel extends ICartBaseDbModel {
   id: number;
   userId: number;
-  user?: IUserDbModel;
-  cartItems?: ICartItemDbModel[];
+  user?: IUserSqlDbModel;
+  cartItems?: ICartItemSqlDbModel[];
 }
 
-export interface ICartDbModelCreation extends Omit<ICartDbModel, "id" | 'user' | 'cartItems'> {}
+export interface ICartSqlDbModelForCreate
+  extends Omit<ICartSqlDbModel, "id" | "user" | "cartItems"> {}
+
+export interface ICartNoSqlDbModel extends ICartBaseDbModel {
+  _id: string;
+  userId: string;
+  user?: IUserNoSqlDbModel;
+  cartItems?: ICartItemNoSqlDbModel[];
+}

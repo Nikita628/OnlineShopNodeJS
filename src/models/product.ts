@@ -1,4 +1,4 @@
-import { IProductSqlDbModel } from "../database/contracts/product";
+import { IProductNoSqlDbModel, IProductSqlDbModel } from "../database/contracts/product";
 import { DEFAULT_USER_ID } from "../utils/constants";
 
 export interface IProduct {
@@ -7,11 +7,11 @@ export interface IProduct {
   imageUrl: string;
   description: string;
   price: number;
-  userId: number;
+  userId: string;
 }
 
 export interface IProductSearchParam {
-  userId?: number;
+  userId?: string;
 }
 
 export const productMapper = {
@@ -29,6 +29,16 @@ export const productMapper = {
     return {
       description: item.description,
       id: item.id.toString(),
+      imageUrl: item.imageUrl,
+      price: item.price,
+      title: item.title,
+      userId: item.userId.toString(),
+    }
+  },
+  toModelFromNoSqlDbModel(item: IProductNoSqlDbModel): IProduct {
+    return {
+      description: item.description,
+      id: item._id,
       imageUrl: item.imageUrl,
       price: item.price,
       title: item.title,

@@ -37,7 +37,7 @@ adminRouter.post("/edit-product", async (req, res, next) => {
 });
 
 adminRouter.post("/delete-product", async (req, res, next) => {
-  await cartService.deleteProductFromCart(DEFAULT_USER_ID, req.body.productId);
+  //await cartService.deleteProductFromCart(DEFAULT_USER_ID, req.body.productId);
   await productService.deleteProduct(req.body.productId);
   res.redirect("/admin/product-list");
 });

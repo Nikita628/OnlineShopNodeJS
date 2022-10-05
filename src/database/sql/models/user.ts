@@ -1,8 +1,8 @@
 import sequilize, { Model } from "sequelize";
-import { IUserDbModel, IUserDbModelCreation } from "../../contracts/user";
+import { IUserBaseDbModel, IUserSqlDbModelForCreate } from "../../contracts/user";
 import { db } from "../sql";
 
-const User = db.define<Model<IUserDbModel, IUserDbModelCreation>>("user", {
+const User = db.define<Model<IUserBaseDbModel, IUserSqlDbModelForCreate>>("user", {
   id: {
     type: sequilize.INTEGER,
     autoIncrement: true,

@@ -1,9 +1,9 @@
 import sequilize, { Model } from "sequelize";
-import { IOrderDbModel, IOrderDbModelCreation } from "../../contracts/order";
+import { IOrderSqlDbModel, IOrderDbModelCreation } from "../../contracts/order";
 import { db } from "../sql";
 import { User } from "./user";
 
-const Order = db.define<Model<IOrderDbModel, IOrderDbModelCreation>>("order", {
+const Order = db.define<Model<IOrderSqlDbModel, IOrderDbModelCreation>>("order", {
   id: {
     type: sequilize.INTEGER,
     autoIncrement: true,

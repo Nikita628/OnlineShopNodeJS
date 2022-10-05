@@ -1,4 +1,4 @@
-import { IOrderDbModel } from "../../database/contracts/order";
+import { IOrderSqlDbModel } from "../../database/contracts/order";
 import { Cart } from "../../database/sql/models/cart";
 import { CartItem } from "../../database/sql/models/cart-item";
 import { Order } from "../../database/sql/models/order";
@@ -43,7 +43,7 @@ export class OrderServiceSqlDb implements IOrderService {
       return [];
     }
 
-    const orderIdToOrderMap: Record<number, IOrderDbModel> = {};
+    const orderIdToOrderMap: Record<number, IOrderSqlDbModel> = {};
 
     ordersFromDb.forEach((o) => {
       orderIdToOrderMap[o.get().id] = o.get();

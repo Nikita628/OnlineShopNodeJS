@@ -30,7 +30,7 @@ export class ProductServiceSqlDb implements IProductService {
       imageUrl: product.imageUrl,
       price: product.price,
       title: product.title,
-      userId: product.userId,
+      userId: +product.userId,
     });
   }
 

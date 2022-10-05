@@ -1,4 +1,4 @@
-import { IOrderItemDbModel } from "../database/contracts/order-item";
+import { IOrderItemSqlDbModel } from "../database/contracts/order-item";
 import { IProduct, productMapper } from "./product";
 
 export interface IOrderItem {
@@ -7,7 +7,7 @@ export interface IOrderItem {
 }
 
 export const OrderItemMapper = {
-  toModelFromDbModel(item: IOrderItemDbModel): IOrderItem {
+  toModelFromDbModel(item: IOrderItemSqlDbModel): IOrderItem {
     return {
       quantity: item.quantity,
       product: item.product ? productMapper.toModelFromDbModel(item.product) : undefined,

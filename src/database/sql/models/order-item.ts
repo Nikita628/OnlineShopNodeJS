@@ -1,10 +1,10 @@
 import sequilize, { Model } from "sequelize";
-import { IOrderItemDbModel, IOrderItemDbModelCreation } from "../../contracts/order-item";
+import { IOrderItemSqlDbModel, IOrderItemDbModelCreation } from "../../contracts/order-item";
 import { db } from "../sql";
 import { Order } from "./order";
 import { Product } from "./product";
 
-const OrderItem = db.define<Model<IOrderItemDbModel, IOrderItemDbModelCreation>>(
+const OrderItem = db.define<Model<IOrderItemSqlDbModel, IOrderItemDbModelCreation>>(
   "order_item",
   {
     id: {

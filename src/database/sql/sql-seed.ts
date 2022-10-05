@@ -6,7 +6,7 @@ import { Cart } from "./models/cart";
 import { Order } from "./models/order";
 import { OrderItem } from "./models/order-item";
 import { IProductSqlDbModelForCreate } from "../contracts/product";
-import { ICartItemDbModelCreation } from "../contracts/cart-item";
+import { ICartItemSqlDbModelForCreate } from "../contracts/cart-item";
 import { IOrderItemDbModelCreation } from "../contracts/order-item";
 
 const products: IProductSqlDbModelForCreate[] = [
@@ -81,7 +81,7 @@ async function fillTables(): Promise<void> {
 
     // populate cart items
     await CartItem.bulkCreate(
-      createdProductIds.map<ICartItemDbModelCreation>((id) => ({
+      createdProductIds.map<ICartItemSqlDbModelForCreate>((id) => ({
         cartId: createdCart.get().id,
         productId: id,
         quantity: 2,

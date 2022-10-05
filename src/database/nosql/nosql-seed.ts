@@ -31,10 +31,6 @@ export async function seedNoSqlDb() {
         await ProductModel.insertMany(products);
     }
 
-    const res = await ProductModel.find();
-
-    console.log(res);
-
     console.log("\x1b[32m%s\x1b[0m", "seeding DB finished");
   } catch (error) {
     console.log("\x1b[31m", "seed error:");
