@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { ICartNoSqlDbModel } from "./cart";
 
 export interface IUserBaseDbModel {
@@ -12,6 +13,6 @@ export interface IUserSqlDbModel extends IUserBaseDbModel {
 export interface IUserSqlDbModelForCreate extends Omit<IUserSqlDbModel, "id"> {}
 
 export interface IUserNoSqlDbModel extends IUserBaseDbModel {
-  _id: string;
+  _id: Types.ObjectId;
   cart: ICartNoSqlDbModel;
 }

@@ -41,7 +41,7 @@ export async function seedNoSqlDb() {
     if ((await ProductModel.count()) === 0) {
       const productsToInsert = products.map((p) => ({
         ...p,
-        userId: adminUser!.toObject()._id,
+        userId: adminUser!._id,
       }));
 
       await ProductModel.insertMany(productsToInsert);

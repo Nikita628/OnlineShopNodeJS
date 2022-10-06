@@ -6,7 +6,7 @@ import { ICartService } from "../contracts/cart-service";
 
 export class CartServiceSqlDb implements ICartService {
   public async addProductToCart(
-    userId: number,
+    userId: string,
     productId: string
   ): Promise<void> {
     let cartFromDb = await Cart.findOne({
@@ -14,7 +14,7 @@ export class CartServiceSqlDb implements ICartService {
     });
 
     if (!cartFromDb) {
-      cartFromDb = await Cart.create({ userId });
+      cartFromDb = await Cart.create({ userId: +userId });
     }
 
     const productFromDb = await Product.findOne({ where: { id: productId } });
@@ -43,7 +43,7 @@ export class CartServiceSqlDb implements ICartService {
     }
   }
 
-  public async getCart(userId: number): Promise<ICart | undefined> {
+  public async getCart(userId: string): Promise<ICart> {
     let cartFromDb = await Cart.findOne({ where: { userId } });
 
     if (cartFromDb) {
@@ -54,7 +54,7 @@ export class CartServiceSqlDb implements ICartService {
       cartFromDb.get().cartItems = cartItems.map((i) => i.get());
     } else {
       cartFromDb = await Cart.create({
-        userId,
+        userId: +userId,
       });
     }
 
@@ -62,7 +62,7 @@ export class CartServiceSqlDb implements ICartService {
   }
 
   public async deleteProductFromCart(
-    userId: number,
+    userId: string,
     productId: string
   ): Promise<void> {
     const cartFromDb = await Cart.findOne({
@@ -78,7 +78,7 @@ export class CartServiceSqlDb implements ICartService {
     });
   }
 
-  public async deleteCart(userId: number): Promise<void> {
+  public async deleteCart(userId: string): Promise<void> {
     const cartFromDb = await Cart.findOne({
       where: { userId },
     });

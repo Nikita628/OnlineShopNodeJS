@@ -38,11 +38,11 @@ export const productMapper = {
   toModelFromNoSqlDbModel(item: IProductNoSqlDbModel): IProduct {
     return {
       description: item.description,
-      id: item._id,
+      id: item._id.toString(),
       imageUrl: item.imageUrl,
       price: item.price,
       title: item.title,
-      userId: item.userId,
+      userId: item.userId.toString(),
     }
   }
 };

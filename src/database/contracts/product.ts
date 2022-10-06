@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { IUserNoSqlDbModel } from "./user";
 
 export interface IBaseProductDbModel {
@@ -16,6 +17,6 @@ export interface IProductSqlDbModelForCreate
   extends Omit<IProductSqlDbModel, "id"> {}
 
 export interface IProductNoSqlDbModel extends IBaseProductDbModel {
-  _id: string;
-  userId: string | IUserNoSqlDbModel;
+  _id: Types.ObjectId;
+  userId: Types.ObjectId;
 }

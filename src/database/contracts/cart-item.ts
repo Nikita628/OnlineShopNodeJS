@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { IProductNoSqlDbModel, IProductSqlDbModel } from "./product";
 
 export interface ICartItemBaseDbModel {
@@ -15,5 +16,5 @@ export interface ICartItemSqlDbModelForCreate
   extends Omit<ICartItemSqlDbModel, "id" | "product"> {}
 
 export interface ICartItemNoSqlDbModel extends ICartItemBaseDbModel {
-  productId: string | IProductNoSqlDbModel;
+  productId: Types.ObjectId | IProductNoSqlDbModel;
 }
