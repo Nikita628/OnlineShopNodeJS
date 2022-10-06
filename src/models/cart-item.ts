@@ -1,9 +1,8 @@
-import { Types } from "mongoose";
 import {
   ICartItemNoSqlDbModel,
   ICartItemSqlDbModel,
 } from "../database/contracts/cart-item";
-import { IProduct, productMapper } from "./product";
+import { IProduct, productMapper, productTyper } from "./product";
 
 export interface ICartItem {
   quantity: number;
@@ -20,12 +19,15 @@ export const cartItemMapper = {
     };
   },
   toModelFromNoSqlDbModel(item: ICartItemNoSqlDbModel): ICartItem {
+    let product: IProduct | undefined;
+
+    if (productTyper.isProductNoSqlDbModel(item.productId)) {
+      product = productMapper.toModelFromNoSqlDbModel(item.productId);
+    }
+
     return {
       quantity: item.quantity,
-      product:
-        item.productId && !(item.productId instanceof Types.ObjectId)
-          ? productMapper.toModelFromNoSqlDbModel(item.productId)
-          : undefined,
+      product,
     };
   },
 };

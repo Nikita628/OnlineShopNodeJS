@@ -1,9 +1,4 @@
-import { Schema } from "mongoose";
-import { ProductModel } from "../../database/nosql/models/product";
 import { UserModel } from "../../database/nosql/models/user";
-import { Cart } from "../../database/sql/models/cart";
-import { CartItem } from "../../database/sql/models/cart-item";
-import { Product } from "../../database/sql/models/product";
 import { cartMapper, ICart } from "../../models/cart";
 import { ICartService } from "../contracts/cart-service";
 import { Types } from "mongoose";
@@ -16,7 +11,7 @@ export class CartServiceNoSqlDb implements ICartService {
     const user = await UserModel.findById(userId);
 
     if (!user) {
-      return;
+      throw new Error(`user with id ${userId} not found`);
     }
 
     const productFromCart = user.cart.cartItems.find(
@@ -53,9 +48,29 @@ export class CartServiceNoSqlDb implements ICartService {
   public async deleteProductFromCart(
     userId: string,
     productId: string
-  ): Promise<void> {}
+  ): Promise<void> {
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      throw new Error(`user with id ${userId} not found`);
+    }
+
+    user.cart.cartItems = user.cart.cartItems.filter(
+      (i) => i.productId.toString() !== productId
+    );
+
+    await user.save();
+  }
 
   public async deleteCart(userId: string): Promise<void> {
-    // clear cart in user
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      throw new Error(`user with id ${userId} not found`);
+    }
+
+    user.cart = { cartItems: [] };
+
+    await user.save();
   }
 }

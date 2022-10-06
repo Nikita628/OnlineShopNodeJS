@@ -1,6 +1,6 @@
-import { Types } from "mongoose";
 import { ICartNoSqlDbModel, ICartSqlDbModel } from "../database/contracts/cart";
 import { cartItemMapper, ICartItem } from "./cart-item";
+import { productTyper } from "./product";
 
 export interface ICart {
   cartItems: ICartItem[];
@@ -32,7 +32,7 @@ export const cartMapper = {
 
     if (item.cartItems) {
       for (const i of item.cartItems) {
-        if (i.productId && !(i.productId instanceof Types.ObjectId)) {
+        if (i.productId && productTyper.isProductNoSqlDbModel(i.productId)) {
           totalPrice += i.productId.price * i.quantity;
           cartItems.push(cartItemMapper.toModelFromNoSqlDbModel(i))
         }

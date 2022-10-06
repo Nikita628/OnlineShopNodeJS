@@ -38,6 +38,8 @@ export async function seedNoSqlDb() {
       });
     }
 
+    console.log('admin id --------------------- ', adminUser._id);
+
     if ((await ProductModel.count()) === 0) {
       const productsToInsert = products.map((p) => ({
         ...p,

@@ -1,4 +1,8 @@
-import { IProductNoSqlDbModel, IProductSqlDbModel } from "../database/contracts/product";
+import { Types } from "mongoose";
+import {
+  IProductNoSqlDbModel,
+  IProductSqlDbModel,
+} from "../database/contracts/product";
 import { DEFAULT_USER_ID } from "../utils/constants";
 
 export interface IProduct {
@@ -17,13 +21,15 @@ export interface IProductSearchParam {
 export const productMapper = {
   toModel(item: any): IProduct {
     return {
-      title: item.title || '',
-      imageUrl: item.imageUrl || 'https://www.theeastnashvillian.com/wp-content/uploads/2020/07/Placeholder-template-image-1.jpg',
-      description: item.description || '',
+      title: item.title || "",
+      imageUrl:
+        item.imageUrl ||
+        "https://www.theeastnashvillian.com/wp-content/uploads/2020/07/Placeholder-template-image-1.jpg",
+      description: item.description || "",
       price: Number(item.price) || 0,
-      id: item.id || '',
+      id: item.id || "",
       userId: item.userId || DEFAULT_USER_ID,
-    }
+    };
   },
   toModelFromDbModel(item: IProductSqlDbModel): IProduct {
     return {
@@ -33,7 +39,7 @@ export const productMapper = {
       price: item.price,
       title: item.title,
       userId: item.userId.toString(),
-    }
+    };
   },
   toModelFromNoSqlDbModel(item: IProductNoSqlDbModel): IProduct {
     return {
@@ -43,6 +49,26 @@ export const productMapper = {
       price: item.price,
       title: item.title,
       userId: item.userId.toString(),
-    }
-  }
+    };
+  },
+};
+
+export const productTyper = {
+  isProductNoSqlDbModel(item: any): item is IProductNoSqlDbModel {
+    return (
+      item &&
+      item._id &&
+      item._id instanceof Types.ObjectId &&
+      item.userId &&
+      item.userId instanceof Types.ObjectId &&
+      item.title &&
+      typeof item.title === "string" &&
+      item.price &&
+      typeof item.price === "number" &&
+      item.imageUrl &&
+      typeof item.imageUrl === "string" &&
+      item.description &&
+      typeof item.description === "string"
+    );
+  },
 };
