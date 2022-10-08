@@ -1,5 +1,5 @@
 import { ICartItemNoSqlDbModel, ICartItemSqlDbModel } from "./cart-item";
-import { IUserNoSqlDbModel, IUserSqlDbModel } from "./user";
+import { IUserSqlDbModel } from "./user";
 
 export interface ICartBaseDbModel {}
 

@@ -1,6 +1,6 @@
 <%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/styles/order.css">
 </head>
-
 
 
 <body>
@@ -8,9 +8,16 @@
 
     <main>
         <% if (orders.length) { %>
-            <ul>
+            <ul class="orders">
                 <% for (o of orders) { %>
-                    <li> <%= o.totalPrice %> </li>
+                    <li class="orders__item">
+                        <h1>Order for total -  <%= o.totalPrice %></h1>
+                        <ul class="orders__products">
+                            <% o.orderItems.forEach(oi => { %>
+                                <li class="orders__products-item"><%= oi.product.title %> (<%= oi.quantity %>)</li>
+                            <% }); %>
+                        </ul>
+                    </li>
                 <% } %>
             </ul>
         <% } else { %>

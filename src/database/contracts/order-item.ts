@@ -1,7 +1,5 @@
 import {
-  IBaseProductDbModel,
   IProductInOrderItemNoSqlDbModel,
-  IProductNoSqlDbModel,
   IProductSqlDbModel,
 } from "./product";
 

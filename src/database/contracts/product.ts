@@ -1,5 +1,4 @@
 import { Types } from "mongoose";
-import { IUserNoSqlDbModel } from "./user";
 
 export interface IBaseProductDbModel {
   title: string;
