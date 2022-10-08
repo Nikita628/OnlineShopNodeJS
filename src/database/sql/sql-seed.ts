@@ -17,7 +17,7 @@ const products: IProductSqlDbModelForCreate[] = [
     imageUrl:
       "https://www.theeastnashvillian.com/wp-content/uploads/2020/07/Placeholder-template-image-1.jpg",
     price: 123.33,
-    userId: DEFAULT_USER_ID,
+    userId: +DEFAULT_USER_ID,
   },
   {
     title: "amet consectetur",
@@ -26,7 +26,7 @@ const products: IProductSqlDbModelForCreate[] = [
     imageUrl:
       "https://www.theeastnashvillian.com/wp-content/uploads/2020/07/Placeholder-template-image-1.jpg",
     price: 444.5,
-    userId: DEFAULT_USER_ID,
+    userId: +DEFAULT_USER_ID,
   },
 ];
 
@@ -76,7 +76,7 @@ async function fillTables(): Promise<void> {
 
   if (cartsCount === 0) {
     const createdCart = await Cart.create({
-      userId: DEFAULT_USER_ID,
+      userId: +DEFAULT_USER_ID,
     });
 
     // populate cart items
@@ -94,7 +94,7 @@ async function fillTables(): Promise<void> {
 
   if (ordersCount === 0) {
     const createdOrder = await Order.create({
-      userId: DEFAULT_USER_ID,
+      userId: +DEFAULT_USER_ID,
     });
 
     // populate order items

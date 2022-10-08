@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { IOrderItemNoSqlDbModel, IOrderItemSqlDbModel } from "./order-item";
 import { IUserNoSqlDbModel, IUserSqlDbModel } from "./user";
 
@@ -14,8 +15,10 @@ export interface IOrderDbModelCreation
   extends Omit<IOrderSqlDbModel, "id" | "user" | "orderItems"> {}
 
 export interface IOrderNoSqlDbModel extends IOrderBaseDbModel {
-  _id: string;
-  userId: string;
-  user?: IUserNoSqlDbModel;
-  orderItems?: IOrderItemNoSqlDbModel[];
+  _id: Types.ObjectId;
+  user: {
+    name: string,
+    userId: Types.ObjectId | IUserNoSqlDbModel,
+  };
+  orderItems: IOrderItemNoSqlDbModel[];
 }

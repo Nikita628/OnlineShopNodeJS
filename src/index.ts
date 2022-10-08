@@ -26,8 +26,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res, next) => {
-  // console.log("req log: ", req.path, req.method);
-  next();
+  try {
+    next();
+  } catch (error) {
+    console.log('--- error info start ---');
+    console.log(error);
+    console.log('--- error info end ---');
+    res.send(error);
+  }
 });
 
 app.use("/admin", adminRouter);

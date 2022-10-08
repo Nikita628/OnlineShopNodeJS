@@ -31,7 +31,7 @@ export class CartServiceNoSqlDb implements ICartService {
   }
 
   public async getCart(userId: string): Promise<ICart> {
-    const user = await UserModel.findById(userId);
+    const user = await UserModel.findById(userId).populate('cart.cartItems.productId');
 
     if (!user) {
       throw new Error(`user with id ${userId} not found`);

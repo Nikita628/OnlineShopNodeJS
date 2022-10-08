@@ -21,7 +21,7 @@ export class ProductServiceNoSqlDb implements IProductService {
     const productsFromDb = await ProductModel.find(filter);
 
     return productsFromDb.map((i) =>
-      productMapper.toModelFromNoSqlDbModel(i.toObject())
+      productMapper.toModelFromNoSqlDbModel(i)
     );
   }
 

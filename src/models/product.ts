@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import {
+  IProductInOrderItemNoSqlDbModel,
   IProductNoSqlDbModel,
   IProductSqlDbModel,
 } from "../database/contracts/product";
@@ -51,11 +52,21 @@ export const productMapper = {
       userId: item.userId.toString(),
     };
   },
+  toModelFromInOrderItemNoSqlDbModel(item: IProductInOrderItemNoSqlDbModel): IProduct {
+    return {
+      description: item.description,
+      id: item.id,
+      imageUrl: item.imageUrl,
+      price: item.price,
+      title: item.title,
+      userId: item.userId,
+    };
+  }
 };
 
 export const productTyper = {
   isProductNoSqlDbModel(item: any): item is IProductNoSqlDbModel {
-    return (
+    const is: boolean = (
       item &&
       item._id &&
       item._id instanceof Types.ObjectId &&
@@ -70,5 +81,11 @@ export const productTyper = {
       item.description &&
       typeof item.description === "string"
     );
+
+    if (!is) {
+      throw new Error('[isProductNoSqlDbModel]: item is not product')
+    }
+
+    return is;
   },
 };

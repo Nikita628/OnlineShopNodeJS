@@ -22,7 +22,7 @@ const products = [
 
 export async function seedNoSqlDb() {
   try {
-    // await clearDb();
+    //await clearDb();
 
     let adminUser = await UserModel.findOne({
       email: { $eq: "admin@admin.com" },
@@ -38,12 +38,12 @@ export async function seedNoSqlDb() {
       });
     }
 
-    console.log('admin id --------------------- ', adminUser._id);
+    console.log('admin id', adminUser.id);
 
     if ((await ProductModel.count()) === 0) {
       const productsToInsert = products.map((p) => ({
         ...p,
-        userId: adminUser!._id,
+        userId: adminUser?.id,
       }));
 
       await ProductModel.insertMany(productsToInsert);

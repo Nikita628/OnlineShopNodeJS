@@ -1,4 +1,4 @@
-import { IOrderItemSqlDbModel } from "../database/contracts/order-item";
+import { IOrderItemNoSqlDbModel, IOrderItemSqlDbModel } from "../database/contracts/order-item";
 import { IProduct, productMapper } from "./product";
 
 export interface IOrderItem {
@@ -6,11 +6,17 @@ export interface IOrderItem {
   product?: IProduct;
 }
 
-export const OrderItemMapper = {
+export const orderItemMapper = {
   toModelFromDbModel(item: IOrderItemSqlDbModel): IOrderItem {
     return {
       quantity: item.quantity,
       product: item.product ? productMapper.toModelFromDbModel(item.product) : undefined,
-    }
+    };
+  },
+  toModelFromNoSqlDbModel(item: IOrderItemNoSqlDbModel): IOrderItem {
+    return {
+      quantity: item.quantity,
+      product: productMapper.toModelFromInOrderItemNoSqlDbModel(item.product),
+    };
   }
 };

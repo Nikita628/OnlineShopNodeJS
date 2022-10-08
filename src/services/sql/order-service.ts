@@ -8,7 +8,7 @@ import { IOrder, orderMapper } from "../../models/order";
 import { IOrderService } from "../contracts/order-service";
 
 export class OrderServiceSqlDb implements IOrderService {
-  async order(userId: number): Promise<void> {
+  async order(userId: string): Promise<void> {
     const cartFromDb = await Cart.findOne({
       where: { userId },
     });
@@ -22,7 +22,7 @@ export class OrderServiceSqlDb implements IOrderService {
     });
 
     const createdOrder = await Order.create({
-      userId,
+      userId: +userId,
     });
 
     await OrderItem.bulkCreate(
@@ -36,7 +36,7 @@ export class OrderServiceSqlDb implements IOrderService {
     );
   }
 
-  async getOrders(userId: number): Promise<IOrder[]> {
+  async getOrders(userId: string): Promise<IOrder[]> {
     const ordersFromDb = await Order.findAll({ where: { userId } });
 
     if (!ordersFromDb.length) {

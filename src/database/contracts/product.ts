@@ -20,3 +20,8 @@ export interface IProductNoSqlDbModel extends IBaseProductDbModel {
   _id: Types.ObjectId;
   userId: Types.ObjectId;
 }
+
+export interface IProductInOrderItemNoSqlDbModel extends IBaseProductDbModel {
+  id: string;
+  userId: string;
+}

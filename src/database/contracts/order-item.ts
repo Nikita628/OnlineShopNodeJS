@@ -1,4 +1,9 @@
-import { IProductNoSqlDbModel, IProductSqlDbModel } from "./product";
+import {
+  IBaseProductDbModel,
+  IProductInOrderItemNoSqlDbModel,
+  IProductNoSqlDbModel,
+  IProductSqlDbModel,
+} from "./product";
 
 export interface IOrderItemBaseDbModel {
   quantity: number;
@@ -15,8 +20,5 @@ export interface IOrderItemDbModelCreation
   extends Omit<IOrderItemSqlDbModel, "id" | "product"> {}
 
 export interface IOrderItemNoSqlDbModel extends IOrderItemBaseDbModel {
-  _id: string;
-  orderId: string;
-  productId: string;
-  product?: IProductNoSqlDbModel;
+  product: IProductInOrderItemNoSqlDbModel;
 }
