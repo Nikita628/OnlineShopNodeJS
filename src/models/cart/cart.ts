@@ -1,6 +1,6 @@
-import { ICartNoSqlDbModel, ICartSqlDbModel } from "../database/contracts/cart";
+import { ICartNoSqlDbModel, ICartSqlDbModel } from "../../database/contracts/cart";
 import { cartItemMapper, ICartItem } from "./cart-item";
-import { productTyper } from "./product";
+import { productTyper } from "../product";
 
 export interface ICart {
   cartItems: ICartItem[];

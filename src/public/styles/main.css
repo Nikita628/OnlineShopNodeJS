@@ -58,6 +58,7 @@ main {
   height: 100%;
   display: none;
   align-items: center;
+  justify-content: space-between;
 }
 
 .main-header__item-list {

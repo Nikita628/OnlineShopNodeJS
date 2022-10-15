@@ -1,5 +1,5 @@
 import { UserModel } from "../../database/nosql/models/user";
-import { cartMapper, ICart } from "../../models/cart";
+import { cartMapper, ICart } from "../../models/cart/cart";
 import { ICartService } from "../contracts/cart-service";
 import { Types } from "mongoose";
 

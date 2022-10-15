@@ -10,6 +10,8 @@
       <li class="main-header__item">
         <a href="/product-list">Products</a>
       </li>
+
+      <% if (isAuthenticated) { %>
       <li class="main-header__item">
         <a href="/cart">Cart</a>
       </li>
@@ -23,8 +25,26 @@
       <li class="main-header__item">
         <a href="/admin/product-list">Admin Products</a>
       </li>
-
+      <% } %>
     </ul>
+
+    <ul class="main-header__item-list">
+      <% if (!isAuthenticated) { %>
+          <li class="main-header__item">
+              <a href="/login">Login</a>
+          </li>
+          <li class="main-header__item">
+              <a href="/signup">Signup</a>
+          </li>
+      <% } else { %>
+          <li class="main-header__item">
+              <form action="/logout" method="post">
+                  <button type="submit">Logout</button>
+              </form>
+          </li>
+      <% } %>
+  </ul>
+
   </nav>
   <button class="theme-toggler">Theme</button>
 </header>
@@ -37,6 +57,8 @@
           <li class="mobile-nav__item">
               <a class="" href="/product-list">Products</a>
           </li>
+
+          <% if (isAuthenticated) { %>
           <li class="mobile-nav__item">
               <a class="" href="/cart">Cart</a>
           </li>
@@ -52,5 +74,21 @@
               <a class="" href="/admin/product-list">Admin Products
               </a>
           </li>
+          <% } %>
+
+          <% if (!isAuthenticated) { %>
+            <li class="mobile-nav__item">
+                <a href="/login">Login</a>
+            </li>
+            <li class="mobile-nav__item">
+                <a href="/signup">Signup</a>
+            </li>
+          <% } else { %>
+            <li class="mobile-nav__item">
+                <form action="/logout" method="post">
+                    <button type="submit">Logout</button>
+                </form>
+            </li>
+          <% } %>
       </ul>
 </nav>

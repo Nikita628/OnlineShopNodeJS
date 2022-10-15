@@ -1,4 +1,4 @@
-import { IOrderNoSqlDbModel, IOrderSqlDbModel } from "../database/contracts/order";
+import { IOrderNoSqlDbModel, IOrderSqlDbModel } from "../../database/contracts/order";
 import { orderItemMapper, IOrderItem } from "./order-item";
 
 export interface IOrder {

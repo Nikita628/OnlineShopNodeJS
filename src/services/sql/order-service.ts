@@ -4,7 +4,7 @@ import { CartItem } from "../../database/sql/models/cart-item";
 import { Order } from "../../database/sql/models/order";
 import { OrderItem } from "../../database/sql/models/order-item";
 import { Product } from "../../database/sql/models/product";
-import { IOrder, orderMapper } from "../../models/order";
+import { IOrder, orderMapper } from "../../models/order/order";
 import { IOrderService } from "../contracts/order-service";
 
 export class OrderServiceSqlDb implements IOrderService {

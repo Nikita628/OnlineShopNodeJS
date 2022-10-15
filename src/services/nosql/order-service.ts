@@ -1,7 +1,7 @@
 import { ICartItemNoSqlDbModel } from "../../database/contracts/cart-item";
 import { OrderModel } from "../../database/nosql/models/order";
 import { UserModel } from "../../database/nosql/models/user";
-import { IOrder, orderMapper } from "../../models/order";
+import { IOrder, orderMapper } from "../../models/order/order";
 import { productTyper } from "../../models/product";
 import { IOrderService } from "../contracts/order-service";
 

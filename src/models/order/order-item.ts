@@ -1,5 +1,5 @@
-import { IOrderItemNoSqlDbModel, IOrderItemSqlDbModel } from "../database/contracts/order-item";
-import { IProduct, productMapper } from "./product";
+import { IOrderItemNoSqlDbModel, IOrderItemSqlDbModel } from "../../database/contracts/order-item";
+import { IProduct, productMapper } from "../product";
 
 export interface IOrderItem {
   quantity: number;

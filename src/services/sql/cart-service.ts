@@ -1,7 +1,7 @@
 import { Cart } from "../../database/sql/models/cart";
 import { CartItem } from "../../database/sql/models/cart-item";
 import { Product } from "../../database/sql/models/product";
-import { cartMapper, ICart } from "../../models/cart";
+import { cartMapper, ICart } from "../../models/cart/cart";
 import { ICartService } from "../contracts/cart-service";
 
 export class CartServiceSqlDb implements ICartService {

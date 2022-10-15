@@ -1,8 +1,8 @@
 import {
   ICartItemNoSqlDbModel,
   ICartItemSqlDbModel,
-} from "../database/contracts/cart-item";
-import { IProduct, productMapper, productTyper } from "./product";
+} from "../../database/contracts/cart-item";
+import { IProduct, productMapper, productTyper } from "../product";
 
 export interface ICartItem {
   quantity: number;
