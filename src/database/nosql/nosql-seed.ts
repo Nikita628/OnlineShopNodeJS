@@ -28,10 +28,26 @@ export async function seedNoSqlDb() {
       email: { $eq: "admin@admin.com" },
     });
 
+    let testUser = await UserModel.findOne({
+      email: { $eq: "test@test.com" },
+    });
+
     if (!adminUser) {
       adminUser = await UserModel.create({
         email: "admin@admin.com",
         name: "admin",
+        password: 'admin',
+        cart: {
+          cartItems: [],
+        }
+      });
+    }
+
+    if (!testUser) {
+      adminUser = await UserModel.create({
+        email: "test@test.com",
+        name: "test",
+        password: 'test',
         cart: {
           cartItems: [],
         }

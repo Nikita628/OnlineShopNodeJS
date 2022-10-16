@@ -15,4 +15,6 @@ export interface IUserSqlDbModelForCreate extends Omit<IUserSqlDbModel, "id"> {}
 export interface IUserNoSqlDbModel extends IUserBaseDbModel {
   _id: Types.ObjectId;
   cart: ICartNoSqlDbModel;
+  password: string;
 }
+

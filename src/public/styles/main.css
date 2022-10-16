@@ -12,7 +12,7 @@
   --shadow-primary: #c2c2c2;
 }
 
-:root[dark] {
+:root[theme="dark"] {
   --background-primary: #363636;
   --background-secondary: #5d5d5d;
   --text-primary: #ffffff;
@@ -40,10 +40,6 @@ main {
   max-width: 800px;
 }
 
-.theme-toggler {
-  margin-left: auto;
-}
-
 .main-header {
   width: 100%;
   height: 3.5rem;
@@ -59,6 +55,7 @@ main {
   display: none;
   align-items: center;
   justify-content: space-between;
+  flex-grow: 1;
 }
 
 .main-header__item-list {

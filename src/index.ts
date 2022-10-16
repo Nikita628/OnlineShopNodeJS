@@ -9,10 +9,15 @@ import { config } from "./config";
 import { connectMongo } from "./database/nosql/nosql";
 import { seedNoSqlDb } from "./database/nosql/nosql-seed";
 import { authRouter } from "./routes/auth";
+import { authMiddleware } from "./middleware/auth";
+import csrf from 'csurf';
+import { utilsRouter } from "./routes/utils";
+import cookieParser from 'cookie-parser';
 
-declare module 'express-session' {
+declare module "express-session" {
   interface SessionData {
     isAuthenticated?: boolean;
+    isDark?: boolean;
   }
 }
 
@@ -26,10 +31,13 @@ declare module 'express-session' {
 })();
 
 const app = express();
+const csrfProtection = csrf();
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+app.use(cookieParser());
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
@@ -39,7 +47,7 @@ app.use(
     saveUninitialized: false,
   })
 );
-
+app.use(csrfProtection);
 app.use((req, res, next) => {
   try {
     next();
@@ -50,12 +58,25 @@ app.use((req, res, next) => {
     res.send(error);
   }
 });
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.session?.isAuthenticated;
+  res.locals.token = req.csrfToken();
+  res.locals.theme = req.cookies?.theme;
+  next();
+});
 
-app.use("/admin", adminRouter);
+// routes -----------------------------------------
+app.use("/admin", authMiddleware, adminRouter);
 app.use(shopRouter);
 app.use(authRouter);
+app.use(utilsRouter);
 app.use((req, res, next) => {
-  res.status(404).render("not-found", { pageTitle: "Page Not Found" });
+  res
+    .status(404)
+    .render("not-found", {
+      pageTitle: "Page Not Found",
+      isAuthenticated: req.session.isAuthenticated,
+    });
 });
 
 app.listen(3000);
