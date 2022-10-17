@@ -17,11 +17,11 @@ authRouter.post("/login", async (req, res, next) => {
   if (loginResult.value) {
     req.session.isAuthenticated = true;
     req.session.save();
-    return res.redirect("/product-list");
+    res.redirect("/product-list");
+  } else if (loginResult.error) {
+    req.flash("error", loginResult.error.toJson());
+    res.redirect("/login");
   }
-
-  req.flash('error', JSON.stringify(loginResult.error));
-  res.redirect("/login");
 });
 
 authRouter.get("/signup", async (req, res, next) => {
@@ -35,11 +35,11 @@ authRouter.post("/signup", async (req, res, next) => {
   const signupResult = await authService.signup(signupData);
 
   if (signupResult.value) {
-    return res.redirect("/login");
+    res.redirect("/login");
+  } else if (signupResult.error) {
+    req.flash("error", signupResult.error.toJson());
+    res.redirect("/signup");
   }
-
-  req.flash('error', JSON.stringify(signupResult.error));
-  res.redirect("/signup");
 });
 
 authRouter.post("/logout", async (req, res, next) => {

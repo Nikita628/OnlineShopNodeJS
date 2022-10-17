@@ -1,10 +1,8 @@
-import { IError } from "./error";
+export class Result<ValueType, ErrorType> {
+  value?: ValueType;
+  error?: ErrorType;
 
-export class Result<T> {
-  value?: T;
-  error?: IError;
-
-  constructor(init?: { value?: T; error?: IError }) {
+  constructor(init?: { value?: ValueType; error?: ErrorType }) {
     this.value = init?.value;
     this.error = init?.error;
   }

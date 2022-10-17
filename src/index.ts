@@ -10,10 +10,11 @@ import { connectMongo } from "./database/nosql/nosql";
 import { seedNoSqlDb } from "./database/nosql/nosql-seed";
 import { authRouter } from "./routes/auth";
 import { authMiddleware } from "./middleware/auth";
-import csrf from 'csurf';
+import csrf from "csurf";
 import { utilsRouter } from "./routes/utils";
-import cookieParser from 'cookie-parser';
-import flash from 'connect-flash';
+import cookieParser from "cookie-parser";
+import flash from "connect-flash";
+import { Error } from "./models/utils/error";
 
 declare module "express-session" {
   interface SessionData {
@@ -65,8 +66,8 @@ app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session?.isAuthenticated;
   res.locals.token = req.csrfToken();
   res.locals.theme = req.cookies?.theme;
-  const errorAsJson = req.flash('error')[0];
-  res.locals.error = errorAsJson ? JSON.parse(errorAsJson) : undefined;
+  const errorAsJson = req.flash("error")[0];
+  res.locals.error = errorAsJson ? Error.fromJson(errorAsJson) : undefined;
   next();
 });
 
@@ -76,12 +77,10 @@ app.use(shopRouter);
 app.use(authRouter);
 app.use(utilsRouter);
 app.use((req, res, next) => {
-  res
-    .status(404)
-    .render("not-found", {
-      pageTitle: "Page Not Found",
-      isAuthenticated: req.session.isAuthenticated,
-    });
+  res.status(404).render("not-found", {
+    pageTitle: "Page Not Found",
+    isAuthenticated: req.session.isAuthenticated,
+  });
 });
 
 app.listen(3000);
