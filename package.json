@@ -18,6 +18,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/connect-flash": "0.0.37",
     "@types/csurf": "^1.11.2",
     "@types/express-session": "^1.17.5",
     "nodemon": "^2.0.20"

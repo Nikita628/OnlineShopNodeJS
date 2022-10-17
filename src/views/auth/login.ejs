@@ -7,6 +7,8 @@
    <%- include('../includes/navigation.ejs') %>
 
     <main>
+        <%- include('../includes/error.ejs') %>
+        
         <form class="login-form" action="/login" method="POST">
             <input type="hidden" name="_csrf" value="<%= token %>">
             

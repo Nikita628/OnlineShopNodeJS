@@ -4,6 +4,7 @@ import { IAuthService } from "./contracts/auth-service";
 import { Result } from "../models/utils/result";
 import { UserModel } from "../database/nosql/models/user";
 import { encryptionService } from ".";
+import { IUserNoSqlDbModel } from "../database/contracts/user";
 
 export class AuthService implements IAuthService {
   async signup(data: ISignupData): Promise<Result<IUser>> {
@@ -36,12 +37,7 @@ export class AuthService implements IAuthService {
       });
     }
 
-    const isValidPassword = await encryptionService.areEqual(
-      data.password,
-      user.password
-    );
-
-    if (!isValidPassword) {
+    if (!(await this.isValidPassword(data.password, user))) {
       return new Result({
         error: { message: "incorrect login and or password" },
       });
@@ -50,5 +46,12 @@ export class AuthService implements IAuthService {
     return new Result({
       value: userMapper.toModelFromNoSqlDbModel(user),
     });
+  }
+
+  private isValidPassword(
+    password: string,
+    user: IUserNoSqlDbModel
+  ): Promise<boolean> {
+    return encryptionService.areEqual(password, user.password);
   }
 }

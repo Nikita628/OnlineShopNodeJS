@@ -20,6 +20,7 @@ authRouter.post("/login", async (req, res, next) => {
     return res.redirect("/product-list");
   }
 
+  req.flash('error', JSON.stringify(loginResult.error));
   res.redirect("/login");
 });
 
@@ -37,6 +38,7 @@ authRouter.post("/signup", async (req, res, next) => {
     return res.redirect("/login");
   }
 
+  req.flash('error', JSON.stringify(signupResult.error));
   res.redirect("/signup");
 });
 

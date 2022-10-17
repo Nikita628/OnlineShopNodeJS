@@ -232,3 +232,17 @@ main {
 .centered {
   text-align: center;
 }
+
+.user-message {
+  margin: auto;
+  border: 1px solid var(--border-primary);
+  background: var(--background-primary);
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.user-message--error {
+  border-color: red;
+}
