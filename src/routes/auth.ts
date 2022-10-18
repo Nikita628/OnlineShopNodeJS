@@ -1,6 +1,7 @@
 import express from "express";
 import { authMapper } from "../models/auth";
-import { authService } from "../services";
+import { Email } from "../models/email";
+import { authService, emailFactory, emailService } from "../services";
 
 const authRouter = express.Router();
 
@@ -35,6 +36,13 @@ authRouter.post("/signup", async (req, res, next) => {
   const signupResult = await authService.signup(signupData);
 
   if (signupResult.value) {
+    await emailService.send(
+      emailFactory.createSignupSuccessEmail({
+        to: signupData.email,
+        name: signupData.name,
+      })
+    );
+
     res.redirect("/login");
   } else if (signupResult.error) {
     req.flash("error", signupResult.error.toJson());

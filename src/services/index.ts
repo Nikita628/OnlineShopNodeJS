@@ -11,9 +11,15 @@ import { IAuthService } from "./contracts/auth-service";
 import { AuthService } from "./auth";
 import { IEncryptionService } from "./contracts/encryption-service";
 import { EncryptionService } from "./encryption";
+import { IEmailService } from "./contracts/email-service";
+import { EmailService } from "./email/email";
+import { IEmailFactory } from "./contracts/email-factory";
+import { EmailFactory } from "./email/email-factory";
 
 export const cartService: ICartService = new CartServiceNoSqlDb();
 export const orderService: IOrderService = new OrderServiceNoSqlDb();
 export const productService: IProductService = new ProductServiceNoSqlDb();
 export const authService: IAuthService = new AuthService();
 export const encryptionService: IEncryptionService = new EncryptionService();
+export const emailService: IEmailService = new EmailService();
+export const emailFactory: IEmailFactory = new EmailFactory();
