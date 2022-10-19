@@ -1,5 +1,5 @@
-import { Email } from "../../models/email";
+import { IEmail } from "../../models/email";
 
 export interface IEmailService {
-  send(email: Email): Promise<void>;
+  send(email: IEmail): Promise<void>;
 }

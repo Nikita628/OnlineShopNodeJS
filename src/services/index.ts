@@ -15,6 +15,8 @@ import { IEmailService } from "./contracts/email-service";
 import { EmailService } from "./email/email";
 import { IEmailFactory } from "./contracts/email-factory";
 import { EmailFactory } from "./email/email-factory";
+import { IUserService } from "./contracts/user-service";
+import { UserService } from "./user";
 
 export const cartService: ICartService = new CartServiceNoSqlDb();
 export const orderService: IOrderService = new OrderServiceNoSqlDb();
@@ -23,3 +25,4 @@ export const authService: IAuthService = new AuthService();
 export const encryptionService: IEncryptionService = new EncryptionService();
 export const emailService: IEmailService = new EmailService();
 export const emailFactory: IEmailFactory = new EmailFactory();
+export const userService: IUserService = new UserService();

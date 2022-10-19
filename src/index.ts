@@ -14,7 +14,8 @@ import csrf from "csurf";
 import { utilsRouter } from "./routes/utils";
 import cookieParser from "cookie-parser";
 import flash from "connect-flash";
-import { Error } from "./models/utils/error";
+import { localsMiddleware } from "./middleware/locals";
+import { errorHandlingMiddleware } from "./middleware/error-handling";
 
 declare module "express-session" {
   interface SessionData {
@@ -39,6 +40,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 // adding middleware -------------------------------------
+app.use(errorHandlingMiddleware);
 app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -52,24 +54,7 @@ app.use(
 );
 app.use(csrfProtection);
 app.use(flash());
-app.use((req, res, next) => {
-  try {
-    next();
-  } catch (error) {
-    console.log("--- error info start ---");
-    console.log(error);
-    console.log("--- error info end ---");
-    res.send(error);
-  }
-});
-app.use((req, res, next) => {
-  res.locals.isAuthenticated = req.session?.isAuthenticated;
-  res.locals.token = req.csrfToken();
-  res.locals.theme = req.cookies?.theme;
-  const errorAsJson = req.flash("error")[0];
-  res.locals.error = errorAsJson ? Error.fromJson(errorAsJson) : undefined;
-  next();
-});
+app.use(localsMiddleware);
 
 // routes -----------------------------------------
 app.use("/admin", authMiddleware, adminRouter);

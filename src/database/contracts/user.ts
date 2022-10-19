@@ -16,5 +16,7 @@ export interface IUserNoSqlDbModel extends IUserBaseDbModel {
   _id: Types.ObjectId;
   cart: ICartNoSqlDbModel;
   password: string;
+  resetToken: string;
+  resetTokenExpiration: number;
 }
 

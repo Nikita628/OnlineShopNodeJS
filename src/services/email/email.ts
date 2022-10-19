@@ -1,4 +1,4 @@
-import { Email } from "../../models/email";
+import { IEmail } from "../../models/email";
 import { IEmailService } from "../contracts/email-service";
 import nodemailer from "nodemailer";
 import { config } from "../../config";
@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
 });
 
 export class EmailService implements IEmailService {
-  public async send(email: Email): Promise<void> {
+  public async send(email: IEmail): Promise<void> {
     transporter.sendMail(email, function (error, info) {
       if (error) {
         console.log("error sending email: ", error);

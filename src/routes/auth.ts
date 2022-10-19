@@ -1,7 +1,13 @@
 import express from "express";
 import { authMapper } from "../models/auth";
-import { Email } from "../models/email";
-import { authService, emailFactory, emailService } from "../services";
+import { IEmail } from "../models/email";
+import {
+  authService,
+  emailFactory,
+  emailService,
+  userService,
+} from "../services";
+import { Error } from "../models/utils/error";
 
 const authRouter = express.Router();
 
@@ -36,13 +42,6 @@ authRouter.post("/signup", async (req, res, next) => {
   const signupResult = await authService.signup(signupData);
 
   if (signupResult.value) {
-    await emailService.send(
-      emailFactory.createSignupSuccessEmail({
-        to: signupData.email,
-        name: signupData.name,
-      })
-    );
-
     res.redirect("/login");
   } else if (signupResult.error) {
     req.flash("error", signupResult.error.toJson());
@@ -53,6 +52,43 @@ authRouter.post("/signup", async (req, res, next) => {
 authRouter.post("/logout", async (req, res, next) => {
   req.session.destroy(() => {});
   res.redirect("/product-list");
+});
+
+authRouter.get("/reset", async (req, res, next) => {
+  res.render("auth/password-reset", {
+    pageTitle: "Reset",
+  });
+});
+
+authRouter.post("/reset", async (req, res, next) => {
+  const result = await authService.resetPassword(req.body.email);
+
+  if (result.value) {
+    res.redirect("/login");
+  } else if (result.error) {
+    req.flash("error", result.error.toJson());
+    res.redirect("/reset");
+  }
+});
+
+authRouter.get("/new-password/:token", async (req, res, next) => {
+  const result = await userService.validateResetToken(req.params.token);
+
+  if (result.value) {
+    res.render("auth/new-password", {
+      pageTitle: "New Password",
+      userId: result.value.id.toString(),
+    });
+  } else if (result.error) {
+    req.flash("error", result.error.toJson());
+    res.redirect("/reset");
+  }
+});
+
+authRouter.post("/new-password", async (req, res, next) => {
+  await userService.setNewPassword(req.body.userId, req.body.password);
+
+  res.redirect("/login");
 });
 
 export { authRouter };

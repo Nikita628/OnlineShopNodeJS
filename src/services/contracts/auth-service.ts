@@ -6,4 +6,5 @@ import { Result } from "../../models/utils/result";
 export interface IAuthService {
   signup(data: ISignupData): Promise<Result<IUser, Error>>;
   login(data: ILoginData): Promise<Result<IUser, Error>>;
+  resetPassword(email: string): Promise<Result<boolean, Error>>;
 }

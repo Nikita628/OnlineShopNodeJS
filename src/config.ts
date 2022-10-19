@@ -1,6 +1,7 @@
 const environment = process.env.ENVIRONMENT;
 
 let config = {
+  host: 'http://localhost:3000',
   db: 'nosql',
   dbSettingsSql: {
     dbHost: "localhost",
@@ -15,7 +16,6 @@ let config = {
   emailSettings: {
     type: 'OAuth2',
     user: 'bortnikov.nik22@gmail.com',
-    password: '',
     clientId: '228694978036-3pp7qa9eskuvoo484miv7sl3p1gqokkr.apps.googleusercontent.com',
     clientSecret: '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',
     refreshToken: '1//049lmn3uwKIpMCgYIARAAGAQSNwF-L9IrNYBeQ28tNFuTQfqeSbIhABJqL_XEPiqxR_q3N5e_CpmJefDDipJ7Zfe424Sdk_hZTkI',
@@ -25,6 +25,7 @@ let config = {
 switch (environment) {
   case "development":
     config = {
+      host: 'http://localhost:3000',
       db: 'nosql',
       dbSettingsSql: {
         dbHost: "localhost",
@@ -39,7 +40,6 @@ switch (environment) {
       emailSettings: {
         type: 'OAuth2',
         user: 'bortnikov.nik22@gmail.com',
-        password: '',
         clientId: '228694978036-3pp7qa9eskuvoo484miv7sl3p1gqokkr.apps.googleusercontent.com',
         clientSecret: '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',
         refreshToken: '1//049lmn3uwKIpMCgYIARAAGAQSNwF-L9IrNYBeQ28tNFuTQfqeSbIhABJqL_XEPiqxR_q3N5e_CpmJefDDipJ7Zfe424Sdk_hZTkI',

@@ -1,14 +1,24 @@
 import { config } from "../../config";
-import { Email } from "../../models/email";
+import { IEmail } from "../../models/email";
 import { IEmailFactory } from "../contracts/email-factory";
+import { passwordReset, signupSuccess } from "./templates";
 
 export class EmailFactory implements IEmailFactory {
-  createSignupSuccessEmail(param: { to: string; name: string }): Email {
-    return new Email({
+  public createSignupSuccessEmail(param: { to: string; name: string }): IEmail {
+    return {
       from: config.emailSettings.user,
       to: param.to,
-      html: `<h1>Congratulations ${param.name}, you have successfully signed up!</h1>`,
+      html: signupSuccess`${param.name}`,
       subject: "Successful Signup",
-    });
+    };
+  }
+
+  public createPasswordResetEmail(param: { to: string, token: string }): IEmail {
+    return {
+      to: param.to,
+      from: config.emailSettings.user,
+      html: passwordReset`${param.token}`,
+      subject: "Password Reset",
+    };
   }
 }

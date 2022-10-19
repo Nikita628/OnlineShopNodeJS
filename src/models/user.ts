@@ -6,6 +6,10 @@ export interface IUser {
   email: string;
 }
 
+export interface ISearchParam {
+  resetToken: string;
+}
+
 export const userMapper = {
   toModelFromNoSqlDbModel(item: IUserNoSqlDbModel): IUser {
     return {

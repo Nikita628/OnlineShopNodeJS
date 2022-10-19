@@ -4,3 +4,7 @@
   margin: auto;
   display: block;
 }
+
+.forgot-link {
+  color: var(--text-primary);
+}
