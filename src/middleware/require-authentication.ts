@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 
-export function authMiddleware(
+export function requireAuthentication(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  if (!req.session.isAuthenticated) {
+  if (!req.session.authenticatedUserId) {
     return res.redirect("/login");
   }
 

@@ -1,9 +1,8 @@
 import express from "express";
-import { authMiddleware } from "../middleware/auth";
+import { requireAuthentication } from "../middleware/require-authentication";
 import { cartService } from "../services";
 import { orderService } from "../services";
 import { productService } from "../services";
-import { DEFAULT_USER_ID } from "../utils/constants";
 
 const shopRouter = express.Router();
 
@@ -28,33 +27,33 @@ shopRouter.get("/product-details/:id", async (req, res, next) => {
   });
 });
 
-shopRouter.get("/checkout", authMiddleware, (req, res, next) => {
+shopRouter.get("/checkout", requireAuthentication, (req, res, next) => {
   res.render("shop/checkout", {
     pageTitle: "Checkout",
   });
 });
 
-shopRouter.get("/cart", authMiddleware, async (req, res, next) => {
+shopRouter.get("/cart", requireAuthentication, async (req, res, next) => {
   res.render("shop/cart", {
     pageTitle: "Cart",
-    cart: await cartService.getCart(DEFAULT_USER_ID),
+    cart: await cartService.getCart(req.session.authenticatedUserId!),
   });
 });
 
-shopRouter.post("/cart", authMiddleware, async (req, res, next) => {
+shopRouter.post("/cart", requireAuthentication, async (req, res, next) => {
   const productId: string = req.body.productId;
-  await cartService.addProductToCart(DEFAULT_USER_ID, productId);
+  await cartService.addProductToCart(req.session.authenticatedUserId!, productId);
   res.redirect("/cart");
 });
 
-shopRouter.post("/delete-from-cart", authMiddleware, async (req, res, next) => {
+shopRouter.post("/delete-from-cart", requireAuthentication, async (req, res, next) => {
   const productId: string = req.body.productId;
-  await cartService.deleteProductFromCart(DEFAULT_USER_ID, productId);
+  await cartService.deleteProductFromCart(req.session.authenticatedUserId!, productId);
   res.redirect("/cart");
 });
 
-shopRouter.get("/orders", authMiddleware, async (req, res, next) => {
-  const orders = await orderService.getOrders(DEFAULT_USER_ID);
+shopRouter.get("/orders", requireAuthentication, async (req, res, next) => {
+  const orders = await orderService.getOrders(req.session.authenticatedUserId!);
 
   res.render("shop/orders", {
     pageTitle: "Orders",
@@ -62,9 +61,9 @@ shopRouter.get("/orders", authMiddleware, async (req, res, next) => {
   });
 });
 
-shopRouter.post("/order", authMiddleware, async (req, res, next) => {
-  await orderService.order(DEFAULT_USER_ID);
-  await cartService.deleteCart(DEFAULT_USER_ID);
+shopRouter.post("/order", requireAuthentication, async (req, res, next) => {
+  await orderService.order(req.session.authenticatedUserId!);
+  await cartService.deleteCart(req.session.authenticatedUserId!);
 
   res.redirect("/orders");
 });

@@ -1,13 +1,6 @@
 import express from "express";
 import { authMapper } from "../models/auth";
-import { IEmail } from "../models/email";
-import {
-  authService,
-  emailFactory,
-  emailService,
-  userService,
-} from "../services";
-import { Error } from "../models/utils/error";
+import { authService, userService } from "../services";
 
 const authRouter = express.Router();
 
@@ -22,7 +15,7 @@ authRouter.post("/login", async (req, res, next) => {
   const loginResult = await authService.login(loginData);
 
   if (loginResult.value) {
-    req.session.isAuthenticated = true;
+    req.session.authenticatedUserId = loginResult.value.id;
     req.session.save();
     res.redirect("/product-list");
   } else if (loginResult.error) {
@@ -51,7 +44,7 @@ authRouter.post("/signup", async (req, res, next) => {
 
 authRouter.post("/logout", async (req, res, next) => {
   req.session.destroy(() => {});
-  res.redirect("/product-list");
+  res.redirect("/");
 });
 
 authRouter.get("/reset", async (req, res, next) => {
