@@ -5,3 +5,7 @@ export function isNullish(val: any) {
 export function isString(val: any) {
   return typeof val === 'string';
 }
+
+export function isNumber(val: any) {
+  return Number.isFinite(val);
+}

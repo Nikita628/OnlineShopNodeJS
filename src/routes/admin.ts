@@ -1,6 +1,6 @@
 import express from "express";
-import { IProduct, productMapper } from "../models/product";
-import { cartService } from "../services";
+import { IProduct } from "../models/product";
+import { cartService, productMapper } from "../services";
 import { productService } from "../services";
 
 const adminRouter = express.Router();
@@ -12,8 +12,13 @@ adminRouter.get("/create-product", (req, res, next) => {
 });
 
 adminRouter.post("/create-product", async (req, res, next) => {
-  const product: IProduct = productMapper.toModel(req.body);
+  const product = productMapper.toModelForCreate({
+    ...req.body,
+    userId: req.session.authenticatedUserId,
+  });
+
   await productService.createProduct(product);
+
   res.redirect("/admin/product-list");
 });
 
@@ -43,6 +48,7 @@ adminRouter.get("/edit-product/:productId", async (req, res, next) => {
 
 adminRouter.post("/edit-product", async (req, res, next) => {
   const product: IProduct = productMapper.toModel(req.body);
+  product.userId = req.session.authenticatedUserId!;
 
   const existingProduct = await productService.getProduct(product.id);
 
@@ -53,7 +59,7 @@ adminRouter.post("/edit-product", async (req, res, next) => {
   }
 
   await productService.updateProduct(product);
-  
+
   res.redirect("/admin/product-list");
 });
 

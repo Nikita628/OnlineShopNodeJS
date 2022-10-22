@@ -1,12 +1,13 @@
 import {
   IProduct,
+  IProductForCreate,
   IProductSearchParam,
-  productMapper,
 } from "../../models/product";
 import { IProductService } from "../contracts/product-service";
 import { Product } from "../../database/sql/models/product";
 import { FindOptions } from "sequelize";
 import { IProductSqlDbModel } from "../../database/contracts/product";
+import { productMapper } from "..";
 
 export class ProductServiceSqlDb implements IProductService {
   public async getProducts(
@@ -24,7 +25,7 @@ export class ProductServiceSqlDb implements IProductService {
     return dbModels.map((m) => productMapper.toModelFromDbModel(m.get()));
   }
 
-  public async createProduct(product: IProduct): Promise<void> {
+  public async createProduct(product: IProductForCreate): Promise<void> {
     await Product.create({
       description: product.description,
       imageUrl: product.imageUrl,

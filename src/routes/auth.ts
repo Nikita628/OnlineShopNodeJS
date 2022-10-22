@@ -1,6 +1,5 @@
 import express from "express";
-import { authMapper } from "../models/auth";
-import { authService, userService } from "../services";
+import { authMapper, authService, userService } from "../services";
 
 const authRouter = express.Router();
 

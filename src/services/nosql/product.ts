@@ -1,12 +1,13 @@
 import {
   IProduct,
+  IProductForCreate,
   IProductSearchParam,
-  productMapper,
 } from "../../models/product";
 import { IProductService } from "../contracts/product-service";
 import { IProductNoSqlDbModel } from "../../database/contracts/product";
 import { ProductModel } from "../../database/nosql/models/product";
 import { FilterQuery } from "mongoose";
+import { productMapper } from "..";
 
 export class ProductServiceNoSqlDb implements IProductService {
   public async getProducts(
@@ -25,7 +26,7 @@ export class ProductServiceNoSqlDb implements IProductService {
     );
   }
 
-  public async createProduct(product: IProduct): Promise<void> {
+  public async createProduct(product: IProductForCreate): Promise<void> {
     await ProductModel.create({
       description: product.description,
       imageUrl: product.imageUrl,
