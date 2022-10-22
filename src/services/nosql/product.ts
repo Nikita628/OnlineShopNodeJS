@@ -35,12 +35,12 @@ export class ProductServiceNoSqlDb implements IProductService {
     });
   }
 
-  public async getProduct(id: string): Promise<IProduct | undefined> {
+  public async getProduct(id: string): Promise<IProduct | null> {
     const dbModel = await ProductModel.findById(id);
 
     return dbModel
       ? productMapper.toModelFromNoSqlDbModel(dbModel.toObject())
-      : undefined;
+      : null;
   }
 
   public async updateProduct(product: IProduct): Promise<void> {
