@@ -1,12 +1,12 @@
-import { ISignupData, ILoginData } from "../models/auth";
-import { IUser, userMapper } from "../models/user";
-import { IAuthService } from "./contracts/auth-service";
-import { Result } from "../models/utils/result";
-import { UserModel } from "../database/nosql/models/user";
-import { emailFactory, emailService, encryptionService } from ".";
-import { IUserNoSqlDbModel } from "../database/contracts/user";
-import { Error } from "../models/utils/error";
-import { oneHourAsMs } from "../utils/constants";
+import { ISignupData, ILoginData } from "../../models/auth";
+import { IUser, userMapper } from "../../models/user";
+import { IAuthService } from "../contracts/auth-service";
+import { Result } from "../../models/utils/result";
+import { UserModel } from "../../database/nosql/models/user";
+import { emailFactory, emailService, encryptionService } from "..";
+import { IUserNoSqlDbModel } from "../../database/contracts/user";
+import { Error } from "../../models/utils/error";
+import { oneHourAsMs } from "../../utils/constants";
 
 export class AuthService implements IAuthService {
   async resetPassword(email: string): Promise<Result<boolean, Error>> {

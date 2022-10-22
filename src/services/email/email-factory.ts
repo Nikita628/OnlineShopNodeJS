@@ -1,6 +1,6 @@
 import { config } from "../../config";
 import { IEmail } from "../../models/email";
-import { IEmailFactory } from "../contracts/email-factory";
+import { IEmailFactory } from "../contracts/email/email-factory";
 import { passwordReset, signupSuccess } from "./templates";
 
 export class EmailFactory implements IEmailFactory {

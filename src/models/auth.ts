@@ -11,12 +11,6 @@ export interface ILoginData {
 
 export const authMapper = {
   toSignupData(item: any): ISignupData {
-    if (!item) {
-      // should extend precondition here
-      // will not do this to save time, but in real app that would be necessary
-      throw new Error("item is invalid");
-    }
-
     return {
       email: item.email,
       password: item.password,
@@ -24,10 +18,6 @@ export const authMapper = {
     };
   },
   toLoginData(item: any): ILoginData {
-    if (!item) {
-      throw new Error("item is invalid");
-    }
-
     return {
       email: item.email,
       password: item.password,

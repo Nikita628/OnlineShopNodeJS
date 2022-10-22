@@ -1,5 +1,5 @@
 import { compare, hash } from "bcryptjs";
-import { IEncryptionService } from "./contracts/encryption-service";
+import { IEncryptionService } from "../contracts/encryption-service";
 import { randomBytes } from 'crypto';
 
 export class EncryptionService implements IEncryptionService {

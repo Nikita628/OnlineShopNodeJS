@@ -1,5 +1,5 @@
 import { IEmail } from "../../models/email";
-import { IEmailService } from "../contracts/email-service";
+import { IEmailService } from "../contracts/email/email-service";
 import nodemailer from "nodemailer";
 import { config } from "../../config";
 
