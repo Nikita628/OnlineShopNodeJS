@@ -1,4 +1,4 @@
-import { isNullish } from "../utils/checks";
+import { isNullish, isString } from "../utils/checks";
 
 export interface ISignupData {
   email: string;
@@ -14,21 +14,45 @@ export interface ILoginData {
 
 export const authMapper = {
   toSignupData(item: any): ISignupData {
+    // precondition to make sure that the item is present
     if (isNullish(item)) {
-      throw new Error('item is required');
+      throw new Error("item is required");
     }
 
-    return {
+    const mapped: any = {
       email: item.email,
       password: item.password,
       name: item.name,
       passwordConfirmation: item.passwordConfirmation,
     };
+
+    // postcondition to make sure that the result has valid shape
+    for (const key in mapped) {
+      if (!isString(mapped[key])) {
+        throw new Error(`field ${key} has invalid type`);
+      }
+    }
+
+    // later in the app we are sure that the object has correct share
+    // can work with it safely
+    return mapped;
   },
   toLoginData(item: any): ILoginData {
-    return {
-      email: item.email ?? "",
-      password: item.password ?? "",
+    if (isNullish(item)) {
+      throw new Error("item is required");
+    }
+
+    const mapped: any = {
+      email: item.email,
+      password: item.password,
     };
+
+    for (const key in mapped) {
+      if (!isString(mapped[key])) {
+        throw new Error(`field ${key} has invalid type`);
+      }
+    }
+
+    return mapped;
   },
 };
