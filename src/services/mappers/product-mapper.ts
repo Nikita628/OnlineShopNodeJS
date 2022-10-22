@@ -7,13 +7,22 @@ import { IProduct, IProductForCreate } from "../../models/product";
 import { isNullish, isNumber, isString } from "../../utils/checks";
 import { IProductMapper } from "../contracts/mappers/product-mapper";
 
+const typesMap: any = {
+  title: isString,
+  imageUrl: isString,
+  description: isString,
+  price: isNumber,
+  userId: isString,
+  id: isString,
+};
+
 export class ProductMapper implements IProductMapper {
   toModel(item: any): IProduct {
     if (isNullish(item)) {
       throw new Error("item is required");
     }
 
-    const mapped = {
+    const mapped: any = {
       title: item.title,
       imageUrl: item.imageUrl,
       description: item.description,
@@ -21,6 +30,13 @@ export class ProductMapper implements IProductMapper {
       id: item.id,
       userId: item.userId,
     };
+
+    // TODO: implement runtime type checker or use an existing one
+    for (const key in mapped) {
+      if (!typesMap[key](mapped[key])) {
+        throw new Error(`field ${key} has invalid type`);
+      }
+    }
 
     return mapped;
   }
@@ -30,7 +46,7 @@ export class ProductMapper implements IProductMapper {
       throw new Error("item is required");
     }
 
-    const mapped = {
+    const mapped: any = {
       title: item.title,
       imageUrl: item.imageUrl,
       description: item.description,
@@ -38,18 +54,11 @@ export class ProductMapper implements IProductMapper {
       userId: item.userId,
     };
 
-    // TODO: I know that this is repetitive. Later it should be moved to another module
-    // separate runtime type checker
-    if (!isString(mapped.title)) {
-      throw new Error('title must be string');
-    } else if (!isString(mapped.imageUrl)) {
-      throw new Error('imageUrl must be string');
-    } else if (!isString(mapped.description)) {
-      throw new Error('description must be string');
-    } else if (!isNumber(mapped.price)) {
-      throw new Error('price must be number');
-    } else if (!isString(mapped.userId)) {
-      throw new Error('userId must be string');
+    // TODO: implement runtime type checker or use an existing one
+    for (const key in mapped) {
+      if (!typesMap[key](mapped[key])) {
+        throw new Error(`field ${key} has invalid type`);
+      }
     }
 
     return mapped;

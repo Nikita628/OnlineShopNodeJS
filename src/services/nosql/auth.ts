@@ -34,6 +34,9 @@ export class AuthService implements IAuthService {
       return new Result({ error: new Error("user already exists") });
     }
 
+    // validate that data is valid, eg. password is at least 6 char long etc.
+    // use validator
+
     const createdUser = await this.createUser(data);
 
     await this.sendSignupSuccessEmail(data);

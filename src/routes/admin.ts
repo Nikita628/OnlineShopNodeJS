@@ -47,8 +47,10 @@ adminRouter.get("/edit-product/:productId", async (req, res, next) => {
 });
 
 adminRouter.post("/edit-product", async (req, res, next) => {
-  const product: IProduct = productMapper.toModel(req.body);
-  product.userId = req.session.authenticatedUserId!;
+  const product: IProduct = productMapper.toModel({
+    ...req.body,
+    userId: req.session.authenticatedUserId,
+  });
 
   const existingProduct = await productService.getProduct(product.id);
 
