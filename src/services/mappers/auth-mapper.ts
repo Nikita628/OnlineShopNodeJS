@@ -1,5 +1,5 @@
 import { ILoginData, ISignupData } from "../../models/auth";
-import { isNullish, isString } from "../../utils/checks";
+import { isNullish, isString } from "../../utils/type-checks";
 import { IAuthMapper } from "../contracts/mappers/auth-mapper";
 
 export class AuthMapper implements IAuthMapper {

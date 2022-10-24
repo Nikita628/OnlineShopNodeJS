@@ -1,7 +1,8 @@
 import { UserModel } from "../../database/nosql/models/user";
-import { cartMapper, ICart } from "../../models/cart/cart";
+import { ICart } from "../../models/cart/cart";
 import { ICartService } from "../contracts/cart-service";
 import { Types } from "mongoose";
+import { cartMapper } from "..";
 
 export class CartServiceNoSqlDb implements ICartService {
   public async addProductToCart(

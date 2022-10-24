@@ -1,8 +1,8 @@
 import { FilterQuery } from "mongoose";
-import { encryptionService } from "..";
+import { encryptionService, userMapper } from "..";
 import { IUserNoSqlDbModel } from "../../database/contracts/user";
 import { UserModel } from "../../database/nosql/models/user";
-import { ISearchParam, IUser, userMapper } from "../../models/user";
+import { ISearchParam, IUser } from "../../models/user";
 import { Error } from "../../models/utils/error";
 import { Result } from "../../models/utils/result";
 import { IUserService } from "../contracts/user-service";

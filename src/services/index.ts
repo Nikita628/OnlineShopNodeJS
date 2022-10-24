@@ -31,6 +31,10 @@ import { IProductMapper } from "./contracts/mappers/product-mapper";
 import { ProductMapper } from "./mappers/product-mapper";
 import { IAuthMapper } from "./contracts/mappers/auth-mapper";
 import { AuthMapper } from "./mappers/auth-mapper";
+import { IAuthValidator } from "./contracts/validators/auth";
+import { AuthValidator } from "./validators/auth";
+import { IProductValidator } from "./contracts/validators/product";
+import { ProductValidator } from "./validators/product";
 
 export const cartService: ICartService = new CartServiceNoSqlDb();
 export const orderService: IOrderService = new OrderServiceNoSqlDb();
@@ -48,3 +52,6 @@ export const cartItemMapper: ICartItemMapper = new CartItemMapper();
 export const userMapper: IUserMapper = new UserMapper();
 export const productMapper: IProductMapper = new ProductMapper();
 export const authMapper: IAuthMapper = new AuthMapper();
+
+export const authValidator: IAuthValidator = new AuthValidator();
+export const productValidator: IProductValidator = new ProductValidator();

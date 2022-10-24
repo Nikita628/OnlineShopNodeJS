@@ -1,3 +1,4 @@
+import { encryptionService } from "../../services";
 import { ProductModel } from "./models/product";
 import { UserModel } from "./models/user";
 
@@ -22,7 +23,7 @@ const products = [
 
 export async function seedNoSqlDb() {
   try {
-    //await clearDb();
+    // await clearDb();
 
     let adminUser = await UserModel.findOne({
       email: { $eq: "admin@admin.com" },
@@ -36,7 +37,7 @@ export async function seedNoSqlDb() {
       adminUser = await UserModel.create({
         email: "admin@admin.com",
         name: "admin",
-        password: 'admin',
+        password: await encryptionService.hash('admin'),
         cart: {
           cartItems: [],
         }
@@ -47,7 +48,7 @@ export async function seedNoSqlDb() {
       adminUser = await UserModel.create({
         email: "test@test.com",
         name: "test",
-        password: 'test',
+        password: await encryptionService.hash('test'),
         cart: {
           cartItems: [],
         }

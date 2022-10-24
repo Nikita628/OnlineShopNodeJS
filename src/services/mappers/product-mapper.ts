@@ -4,7 +4,7 @@ import {
   IProductSqlDbModel,
 } from "../../database/contracts/product";
 import { IProduct, IProductForCreate } from "../../models/product";
-import { isNullish, isNumber, isString } from "../../utils/checks";
+import { isNullish, isNumber, isString } from "../../utils/type-checks";
 import { IProductMapper } from "../contracts/mappers/product-mapper";
 
 const typesMap: any = {

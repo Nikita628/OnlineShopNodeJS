@@ -8,6 +8,8 @@ import { Product } from "../../database/sql/models/product";
 import { FindOptions } from "sequelize";
 import { IProductSqlDbModel } from "../../database/contracts/product";
 import { productMapper } from "..";
+import { AggregatedError } from "../../models/utils/aggregated-error";
+import { Result } from "../../models/utils/result";
 
 export class ProductServiceSqlDb implements IProductService {
   public async getProducts(
@@ -38,12 +40,12 @@ export class ProductServiceSqlDb implements IProductService {
   public async getProduct(id: string): Promise<IProduct | null> {
     const dbModel = await Product.findOne({ where: { id } });
 
-    return dbModel
-      ? productMapper.toModelFromDbModel(dbModel.get())
-      : null;
+    return dbModel ? productMapper.toModelFromDbModel(dbModel.get()) : null;
   }
 
-  public async updateProduct(product: IProduct): Promise<void> {
+  public async updateProduct(
+    product: IProduct
+  ): Promise<Result<boolean, AggregatedError>> {
     await Product.update(
       {
         description: product.description,
@@ -53,10 +55,11 @@ export class ProductServiceSqlDb implements IProductService {
       },
       { where: { id: product.id } }
     );
+
+    return new Result({ value: true });
   }
 
   public async deleteProduct(productId: string): Promise<void> {
     await Product.destroy({ where: { id: productId } });
   }
 }
-

@@ -7,7 +7,9 @@ import { IProductService } from "../contracts/product-service";
 import { IProductNoSqlDbModel } from "../../database/contracts/product";
 import { ProductModel } from "../../database/nosql/models/product";
 import { FilterQuery } from "mongoose";
-import { productMapper } from "..";
+import { productMapper, productValidator } from "..";
+import { Result } from "../../models/utils/result";
+import { AggregatedError } from "../../models/utils/aggregated-error";
 
 export class ProductServiceNoSqlDb implements IProductService {
   public async getProducts(
@@ -21,9 +23,7 @@ export class ProductServiceNoSqlDb implements IProductService {
 
     const productsFromDb = await ProductModel.find(filter);
 
-    return productsFromDb.map((i) =>
-      productMapper.toModelFromNoSqlDbModel(i)
-    );
+    return productsFromDb.map((i) => productMapper.toModelFromNoSqlDbModel(i));
   }
 
   public async createProduct(product: IProductForCreate): Promise<void> {
@@ -44,7 +44,15 @@ export class ProductServiceNoSqlDb implements IProductService {
       : null;
   }
 
-  public async updateProduct(product: IProduct): Promise<void> {
+  public async updateProduct(
+    product: IProduct
+  ): Promise<Result<boolean, AggregatedError>> {
+    const validationResult = productValidator.onUpdate(product);
+
+    if (validationResult) {
+      return new Result({ error: validationResult });
+    }
+
     await ProductModel.updateOne(
       { _id: { $eq: product.id } },
       {
@@ -54,6 +62,8 @@ export class ProductServiceNoSqlDb implements IProductService {
         title: product.title,
       }
     );
+
+    return new Result({ value: true });
   }
 
   public async deleteProduct(productId: string): Promise<void> {

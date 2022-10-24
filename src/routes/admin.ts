@@ -61,6 +61,7 @@ adminRouter.post("/edit-product", async (req, res, next) => {
   }
 
   await productService.updateProduct(product);
+  // if aggregated error, display errors in form
 
   res.redirect("/admin/product-list");
 });
