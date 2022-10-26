@@ -33,8 +33,7 @@ export class ProductValidator implements IProductValidator {
     validation.check();
 
     if (validation.errorCount > 0) {
-      const error = AggregatedError.from(validation.errors.all());
-      console.log(error);
+      return AggregatedError.from(validation.errors.all());
     }
 
     return null;

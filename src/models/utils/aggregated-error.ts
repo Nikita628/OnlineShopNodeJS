@@ -14,12 +14,15 @@ export class AggregatedError {
     });
   }
 
-  public static from(param: { [key: string]: string[] }): AggregatedError {
+  public static from(
+    errors: { [key: string]: string[] },
+    message: string = "Something went wrong"
+  ): AggregatedError {
     const aggregatedError = new AggregatedError();
-    aggregatedError.message = "Something went wrong";
+    aggregatedError.message = message;
 
-    for (const key in param) {
-      aggregatedError.errors[key] = param[key][0];
+    for (const key in errors) {
+      aggregatedError.errors[key] = errors[key][0];
     }
 
     return aggregatedError;

@@ -1,4 +1,5 @@
 import express from "express";
+import { isAuthorizedToAccessProduct } from "../middleware/product-edit-authorization";
 import { IProduct } from "../models/product";
 import { cartService, productMapper } from "../services";
 import { productService } from "../services";
@@ -31,58 +32,55 @@ adminRouter.get("/product-list", async (req, res, next) => {
   });
 });
 
-adminRouter.get("/edit-product/:productId", async (req, res, next) => {
-  const product = await productService.getProduct(req.params.productId);
+adminRouter.get(
+  "/edit-product/:productId",
+  isAuthorizedToAccessProduct,
+  async (req, res, next) => {
+    const product = await productService.getProduct(req.params.productId);
 
-  if (!product) {
-    return res.render("/not-found", { pageTitle: "Not Found" });
-  } else if (product.userId !== req.session.authenticatedUserId) {
-    return res.status(401).send("unauthorized");
+    res.render("admin/edit-product", {
+      pageTitle: "Edit Product",
+      product,
+    });
   }
+);
 
-  res.render("admin/edit-product", {
-    pageTitle: "Edit Product",
-    product,
-  });
-});
+adminRouter.post(
+  "/edit-product",
+  isAuthorizedToAccessProduct,
+  async (req, res, next) => {
+    const product: IProduct = productMapper.toModel({
+      ...req.body,
+      userId: req.session.authenticatedUserId,
+    });
 
-adminRouter.post("/edit-product", async (req, res, next) => {
-  const product: IProduct = productMapper.toModel({
-    ...req.body,
-    userId: req.session.authenticatedUserId,
-  });
+    const updateResult = await productService.updateProduct(product);
 
-  const existingProduct = await productService.getProduct(product.id);
+    if (updateResult.error) {
+      return res.render("admin/edit-product", {
+        pageTitle: "Edit Product",
+        product,
+        error: updateResult.error,
+      });
+    }
 
-  if (!existingProduct) {
-    return res.render("/not-found", { pageTitle: "Not Found" });
-  } else if (existingProduct.userId !== req.session.authenticatedUserId) {
-    return res.status(401).send("unauthorized");
+    res.redirect("/admin/product-list");
   }
+);
 
-  await productService.updateProduct(product);
-  // if aggregated error, display errors in form
+adminRouter.post(
+  "/delete-product",
+  isAuthorizedToAccessProduct,
+  async (req, res, next) => {
+    await cartService.deleteProductFromCart(
+      req.session.authenticatedUserId!,
+      req.body.productId
+    );
 
-  res.redirect("/admin/product-list");
-});
+    await productService.deleteProduct(req.body.productId);
 
-adminRouter.post("/delete-product", async (req, res, next) => {
-  const existingProduct = await productService.getProduct(req.body.productId);
-
-  if (!existingProduct) {
-    return res.render("/not-found", { pageTitle: "Not Found" });
-  } else if (existingProduct.userId !== req.session.authenticatedUserId) {
-    return res.status(401).send("unauthorized");
+    res.redirect("/admin/product-list");
   }
-
-  await cartService.deleteProductFromCart(
-    req.session.authenticatedUserId!,
-    req.body.productId
-  );
-
-  await productService.deleteProduct(req.body.productId);
-
-  res.redirect("/admin/product-list");
-});
+);
 
 export { adminRouter };

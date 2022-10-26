@@ -21,3 +21,11 @@
 .form-control input:focus {
   outline-color: var(--border-primary);
 }
+
+.error-message {
+  color: red;
+}
+
+.form-control .invalid {
+  border: 1px solid red;
+}
