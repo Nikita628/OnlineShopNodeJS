@@ -27,7 +27,9 @@ export class ProductServiceSqlDb implements IProductService {
     return dbModels.map((m) => productMapper.toModelFromDbModel(m.get()));
   }
 
-  public async createProduct(product: IProductForCreate): Promise<void> {
+  public async createProduct(
+    product: IProductForCreate
+  ): Promise<Result<boolean, AggregatedError>> {
     await Product.create({
       description: product.description,
       imageUrl: product.imageUrl,
@@ -35,6 +37,8 @@ export class ProductServiceSqlDb implements IProductService {
       title: product.title,
       userId: +product.userId,
     });
+
+    return new Result({ value: true });
   }
 
   public async getProduct(id: string): Promise<IProduct | null> {

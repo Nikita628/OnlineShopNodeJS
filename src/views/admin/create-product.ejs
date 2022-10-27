@@ -12,22 +12,34 @@
         
         <div class="form-control">
           <label for="title">Title</label>
-          <input type="text" name="title" id="title" />
+          <input type="text" name="title" id="title" value="<%= product?.title %>" class="<%= error?.errors.title && 'invalid' %>" />
+          <% if (error?.errors.title) { %>
+          <span class="error-message"><%= error.errors.title %></span>
+          <% } %>
         </div>
 
         <div class="form-control">
           <label for="imageUrl">Image URL</label>
-          <input type="text" name="imageUrl" id="imageUrl" />
+          <input type="text" name="imageUrl" id="imageUrl" value="<%= product?.imageUrl %>" class="<%= error?.errors.imageUrl && 'invalid' %>" />
+          <% if (error?.errors.imageUrl) { %>
+            <span class="error-message"><%= error.errors.imageUrl %></span>
+            <% } %>
         </div>
 
         <div class="form-control">
           <label for="price">Price</label>
-          <input type="number" name="price" id="price" step="0.01" />
+          <input type="number" name="price" id="price" step="0.01" value="<%= product?.price %>" class="<%= error?.errors.price && 'invalid' %>" />
+          <% if (error?.errors.price) { %>
+            <span class="error-message"><%= error.errors.price  %></span>
+            <% } %>
         </div>
 
         <div class="form-control">
           <label for="description">Description</label>
-          <textarea rows="5" name="description" id="description"></textarea>
+          <textarea rows="5" name="description" id="description" class="<%= error?.errors.description && 'invalid' %>"><%= product?.description %></textarea>
+          <% if (error?.errors.description) { %>
+            <span class="error-message"><%= error.errors.description %></span>
+            <% } %>
         </div>
 
         <button class="btn" type="submit">Add Product</button>

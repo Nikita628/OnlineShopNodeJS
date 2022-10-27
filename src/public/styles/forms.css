@@ -23,9 +23,9 @@
 }
 
 .error-message {
-  color: red;
+  color: var(--error-color);
 }
 
 .form-control .invalid {
-  border: 1px solid red;
+  border: 1px solid var(--error-color);
 }

@@ -26,7 +26,15 @@ export class ProductServiceNoSqlDb implements IProductService {
     return productsFromDb.map((i) => productMapper.toModelFromNoSqlDbModel(i));
   }
 
-  public async createProduct(product: IProductForCreate): Promise<void> {
+  public async createProduct(
+    product: IProductForCreate
+  ): Promise<Result<boolean, AggregatedError>> {
+    const validationResult = productValidator.onCreate(product);
+
+    if (validationResult) {
+      return new Result({ error: validationResult });
+    }
+
     await ProductModel.create({
       description: product.description,
       imageUrl: product.imageUrl,
@@ -34,6 +42,8 @@ export class ProductServiceNoSqlDb implements IProductService {
       title: product.title,
       userId: product.userId,
     });
+
+    return new Result({ value: true });
   }
 
   public async getProduct(id: string): Promise<IProduct | null> {

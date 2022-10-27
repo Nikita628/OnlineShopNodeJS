@@ -18,17 +18,15 @@ const onUpdateRules: Record<keyof IProduct, string> = {
 
 export class ProductValidator implements IProductValidator {
   onCreate(product: IProduct): AggregatedError | null {
-    const validation = new Validator(product, onCreateRules);
-
-    if (validation.fails()) {
-      // construct aggregate error
-    }
-
-    return null;
+    return this.validate(product, onCreateRules);
   }
 
   onUpdate(product: IProduct): AggregatedError | null {
-    const validation = new Validator(product, onUpdateRules);
+    return this.validate(product, onUpdateRules);
+  }
+
+  private validate(product: IProduct, rules: Record<string, string>) {
+    const validation = new Validator(product, rules);
 
     validation.check();
 

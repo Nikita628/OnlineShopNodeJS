@@ -4,7 +4,7 @@ import { Result } from "../../models/utils/result";
 
 export interface IProductService {
   getProducts(searchParam: IProductSearchParam): Promise<IProduct[]>;
-  createProduct(product: IProductForCreate): Promise<void>;
+  createProduct(product: IProductForCreate): Promise<Result<boolean, AggregatedError>>;
   getProduct(id: string): Promise<IProduct | null>;
   updateProduct(product: IProduct): Promise<Result<boolean, AggregatedError>>;
   deleteProduct(id: string): Promise<void>;

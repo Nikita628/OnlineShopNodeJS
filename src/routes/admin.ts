@@ -1,5 +1,6 @@
 import express from "express";
-import { isAuthorizedToAccessProduct } from "../middleware/product-edit-authorization";
+import { isAuthorizedToReadProduct } from "../middleware/product-read-authorization";
+import { isAuthorizedToWriteProduct } from "../middleware/product-write-authorization";
 import { IProduct } from "../models/product";
 import { cartService, productMapper } from "../services";
 import { productService } from "../services";
@@ -9,6 +10,7 @@ const adminRouter = express.Router();
 adminRouter.get("/create-product", (req, res, next) => {
   res.render("admin/create-product", {
     pageTitle: "Create Product",
+    product: null,
   });
 });
 
@@ -18,7 +20,15 @@ adminRouter.post("/create-product", async (req, res, next) => {
     userId: req.session.authenticatedUserId,
   });
 
-  await productService.createProduct(product);
+  const createResult = await productService.createProduct(product);
+
+  if (createResult.error) {
+    return res.render("admin/create-product", {
+      pageTitle: "Create Product",
+      product,
+      error: createResult.error,
+    });
+  }
 
   res.redirect("/admin/product-list");
 });
@@ -34,7 +44,7 @@ adminRouter.get("/product-list", async (req, res, next) => {
 
 adminRouter.get(
   "/edit-product/:productId",
-  isAuthorizedToAccessProduct,
+  isAuthorizedToReadProduct,
   async (req, res, next) => {
     const product = await productService.getProduct(req.params.productId);
 
@@ -47,7 +57,7 @@ adminRouter.get(
 
 adminRouter.post(
   "/edit-product",
-  isAuthorizedToAccessProduct,
+  isAuthorizedToWriteProduct,
   async (req, res, next) => {
     const product: IProduct = productMapper.toModel({
       ...req.body,
@@ -70,7 +80,7 @@ adminRouter.post(
 
 adminRouter.post(
   "/delete-product",
-  isAuthorizedToAccessProduct,
+  isAuthorizedToWriteProduct,
   async (req, res, next) => {
     await cartService.deleteProductFromCart(
       req.session.authenticatedUserId!,

@@ -10,6 +10,7 @@
   --text-secondary: white;
   --border-primary: #b2cfc2;
   --shadow-primary: #c2c2c2;
+  --error-color: #bf4242;
 }
 
 :root[theme="dark"] {
@@ -20,6 +21,7 @@
   --border-primary: #5b5b5b;
   --shadow-primary: #404040;
   --background-third: #1e4634;
+  --error-color: #e65d5d;
 }
 
 html,
@@ -244,5 +246,5 @@ main {
 }
 
 .user-message--error {
-  border-color: red;
+  border-color: var(--error-color);
 }
