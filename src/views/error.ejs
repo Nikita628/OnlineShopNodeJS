@@ -4,6 +4,12 @@
 
   <body>
     <%- include('includes/navigation.ejs') %>
-    <h1><%= error.message %></h1>
+
+    <main>
+      <h1 class="text">Something went wrong</h1>
+
+      <p class="text"><%= error.message %></p>
+    </main>
+    
     
 <%- include('includes/end.ejs') %>

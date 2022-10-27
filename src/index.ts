@@ -40,7 +40,6 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 // adding middleware -------------------------------------
-app.use(errorHandling);
 app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -67,5 +66,8 @@ app.use((req, res, next) => {
     isAuthenticated: !!req.session?.authenticatedUserId,
   });
 });
+
+// error handling middleware should be the last one to add
+app.use(errorHandling); 
 
 app.listen(3000);

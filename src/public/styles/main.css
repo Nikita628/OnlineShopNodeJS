@@ -248,3 +248,7 @@ main {
 .user-message--error {
   border-color: var(--error-color);
 }
+
+.text {
+  color: var(--text-primary);
+}
