@@ -16,6 +16,7 @@ import cookieParser from "cookie-parser";
 import flash from "connect-flash";
 import { setResponseLocals } from "./middleware/locals";
 import { errorHandling } from "./middleware/error-handling";
+import { fileStorage } from "./middleware/file-storage";
 
 declare module "express-session" {
   interface SessionData {
@@ -43,7 +44,9 @@ app.set("views", path.join(__dirname, "views"));
 app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(fileStorage('images', 'image'));
 app.use(express.static(path.join(__dirname, "public")));
+app.use('/files/images', express.static(path.join('files', 'images')));
 app.use(
   session({
     secret: "test secret should be in config long value",
@@ -68,6 +71,6 @@ app.use((req, res, next) => {
 });
 
 // error handling middleware should be the last one to add
-app.use(errorHandling); 
+app.use(errorHandling);
 
 app.listen(3000);

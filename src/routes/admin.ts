@@ -20,6 +20,7 @@ adminRouter.post(
   executeSafely(async (req, res, next) => {
     const product = productMapper.toModelForCreate({
       ...req.body,
+      imageUrl: req.file?.path,
       userId: req.session.authenticatedUserId,
     });
 
@@ -65,6 +66,7 @@ adminRouter.post(
   executeSafely(async (req, res, next) => {
     const product: IProduct = productMapper.toModel({
       ...req.body,
+      imageUrl: req.file?.path ?? req.body.imageUrl,
       userId: req.session.authenticatedUserId,
     });
 

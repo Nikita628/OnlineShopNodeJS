@@ -7,5 +7,13 @@ export function errorHandling(
   next: NextFunction
 ) {
   console.log("error handling: ", error);
-  return res.render("error", { error, pageTitle: "Error" });
+
+  res.locals.isAuthenticated = !!req.session?.authenticatedUserId;
+  res.locals.token = '';
+  res.locals.theme = req.cookies?.theme;
+  
+  return res.render("error", {
+    error,
+    pageTitle: "Error",
+  });
 }
