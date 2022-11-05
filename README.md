@@ -26,3 +26,12 @@ WIP:
 - connected stripe for payments
 - used Docker to contanerize the app
 - start the app with dockercompose
+
+# Architecture:
+
+- MVC
+- *Core* application logic is incapsulated into services:\
+  Domain specific services: Product, User, Cart, Order.\
+  Utility services: Encryption, Authentication, Email, Invoice.\
+  Each service is hidden behind an interface, that allows to easily replace concrete implementations.
+- *Infrastructure*: MongoDB as a datamodel, EJS templates as views.
