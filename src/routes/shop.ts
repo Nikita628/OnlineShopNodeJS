@@ -3,6 +3,9 @@ import { requireAuthentication } from "../middleware/require-authentication";
 import { cartService } from "../services";
 import { orderService } from "../services";
 import { productService } from "../services";
+import fs from "fs";
+import path from "path";
+import { isAuthorizedToReadOrder } from "../middleware/order-read-authorization";
 
 const shopRouter = express.Router();
 
@@ -42,15 +45,25 @@ shopRouter.get("/cart", requireAuthentication, async (req, res, next) => {
 
 shopRouter.post("/cart", requireAuthentication, async (req, res, next) => {
   const productId: string = req.body.productId;
-  await cartService.addProductToCart(req.session.authenticatedUserId!, productId);
+  await cartService.addProductToCart(
+    req.session.authenticatedUserId!,
+    productId
+  );
   res.redirect("/cart");
 });
 
-shopRouter.post("/delete-from-cart", requireAuthentication, async (req, res, next) => {
-  const productId: string = req.body.productId;
-  await cartService.deleteProductFromCart(req.session.authenticatedUserId!, productId);
-  res.redirect("/cart");
-});
+shopRouter.post(
+  "/delete-from-cart",
+  requireAuthentication,
+  async (req, res, next) => {
+    const productId: string = req.body.productId;
+    await cartService.deleteProductFromCart(
+      req.session.authenticatedUserId!,
+      productId
+    );
+    res.redirect("/cart");
+  }
+);
 
 shopRouter.get("/orders", requireAuthentication, async (req, res, next) => {
   const orders = await orderService.getOrders(req.session.authenticatedUserId!);
@@ -63,9 +76,30 @@ shopRouter.get("/orders", requireAuthentication, async (req, res, next) => {
 
 shopRouter.post("/order", requireAuthentication, async (req, res, next) => {
   await orderService.order(req.session.authenticatedUserId!);
-  await cartService.deleteCart(req.session.authenticatedUserId!);
 
   res.redirect("/orders");
 });
+
+shopRouter.get(
+  "/invoice/:orderId",
+  requireAuthentication,
+  isAuthorizedToReadOrder,
+  async (req, res, next) => {
+    const orderId = req.params.orderId;
+    const invoiceName = `${orderId}.pdf`;
+
+    const stream = fs.createReadStream(
+      path.join("files", "invoices", invoiceName)
+    );
+
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${invoiceName}.pdf"`
+    );
+
+    stream.pipe(res);
+  }
+);
 
 export { shopRouter };

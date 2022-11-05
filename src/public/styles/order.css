@@ -29,3 +29,9 @@
   border: 1px solid var(--border-primary);
   color: var(--text-primary);
 }
+
+.invoice-link {
+  color: var(--text-primary);
+  display: inline-block;
+  margin: 10px 0;
+}

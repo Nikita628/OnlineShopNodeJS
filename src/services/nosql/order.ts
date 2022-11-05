@@ -1,4 +1,4 @@
-import { orderMapper } from "..";
+import { cartService, invoiceService, orderMapper } from "..";
 import { ICartItemNoSqlDbModel } from "../../database/contracts/cart-item";
 import { OrderModel } from "../../database/nosql/models/order";
 import { UserModel } from "../../database/nosql/models/user";
@@ -16,13 +16,16 @@ export class OrderServiceNoSqlDb implements IOrderService {
       throw new Error(`user with id ${userId} not found`);
     }
 
-    await OrderModel.create({
+    const createdOrder = await OrderModel.create({
       user: {
         name: user.name,
         userId: user._id,
       },
       orderItems: user.cart.cartItems.map(this.mapCartItemToOrderItem),
     });
+
+    await invoiceService.generate(createdOrder);
+    await cartService.deleteCart(userId);
   }
 
   private mapCartItemToOrderItem(cartItem: ICartItemNoSqlDbModel) {

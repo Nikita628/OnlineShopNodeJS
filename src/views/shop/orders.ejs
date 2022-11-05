@@ -12,6 +12,9 @@
                 <% for (o of orders) { %>
                     <li class="orders__item">
                         <h1>Order for total -  <%= o.totalPrice %></h1>
+                        <div>
+                            <a class="invoice-link" href="/invoice/<%= o.id %>">Invoice</a>
+                        </div>
                         <ul class="orders__products">
                             <% o.orderItems.forEach(oi => { %>
                                 <li class="orders__products-item"><%= oi.product.title %> (<%= oi.quantity %>)</li>

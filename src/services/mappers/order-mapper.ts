@@ -22,6 +22,7 @@ export class OrderMapper implements IOrderMapper {
     }
 
     return {
+      id: item.id.toString(),
       totalPrice,
       orderItems,
     };
@@ -41,6 +42,7 @@ export class OrderMapper implements IOrderMapper {
     }
 
     return {
+      id: item._id.toString(),
       totalPrice,
       orderItems,
     };

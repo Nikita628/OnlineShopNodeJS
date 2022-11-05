@@ -35,6 +35,8 @@ import { IAuthValidator } from "./contracts/validators/auth";
 import { AuthValidator } from "./validators/auth";
 import { IProductValidator } from "./contracts/validators/product";
 import { ProductValidator } from "./validators/product";
+import { IInvoiceService } from "./contracts/invoice-service";
+import { InvoiceService } from "./invoice";
 
 export const cartService: ICartService = new CartServiceNoSqlDb();
 export const orderService: IOrderService = new OrderServiceNoSqlDb();
@@ -44,6 +46,7 @@ export const encryptionService: IEncryptionService = new EncryptionService();
 export const emailService: IEmailService = new EmailService();
 export const emailFactory: IEmailFactory = new EmailFactory();
 export const userService: IUserService = new UserService();
+export const invoiceService: IInvoiceService = new InvoiceService();
 
 export const orderItemMapper: IOrderItemMapper = new OrderItemMapper();
 export const orderMapper: IOrderMapper = new OrderMapper();
