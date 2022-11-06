@@ -3,17 +3,20 @@ import { executeSafely } from "../middleware/execute-safely";
 import { isAuthorizedToReadProduct } from "../middleware/product-read-authorization";
 import { isAuthorizedToWriteProduct } from "../middleware/product-write-authorization";
 import { IProduct } from "../models/product";
-import { cartService, productMapper } from "../services";
+import { cartService, paginationMapper, productMapper } from "../services";
 import { productService } from "../services";
 
 const adminRouter = express.Router();
 
-adminRouter.get("/create-product", executeSafely(async (req, res, next) => {
-  res.render("admin/create-product", {
-    pageTitle: "Create Product",
-    product: null,
-  });
-}));
+adminRouter.get(
+  "/create-product",
+  executeSafely(async (req, res, next) => {
+    res.render("admin/create-product", {
+      pageTitle: "Create Product",
+      product: null,
+    });
+  })
+);
 
 adminRouter.post(
   "/create-product",
@@ -39,11 +42,17 @@ adminRouter.post(
 );
 
 adminRouter.get("/product-list", async (req, res, next) => {
+  const pagination = paginationMapper.toModel(req.query);
+
+  const productsPage = await productService.getProducts({
+    userId: req.session.authenticatedUserId,
+    ...pagination,
+  });
+
   res.render("admin/admin-product-list", {
     pageTitle: "Admin Products",
-    products: await productService.getProducts({
-      userId: req.session.authenticatedUserId,
-    }),
+    page: productsPage,
+    pagination: pagination,
   });
 });
 

@@ -1,0 +1,9 @@
+<div class="pagination">
+  <% if(page.total > pagination.page * pagination.pageSize) { %>
+  <a href="/?page=<%= pagination.page + 1 %>">Next</a>
+  <% } %> 
+
+  <% if(pagination.page > 1) { %>
+  <a href="/?page=<%= pagination.page - 1 %>">Previous</a>
+  <% } %>
+</div>

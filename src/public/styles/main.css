@@ -252,3 +252,11 @@ main {
 .text {
   color: var(--text-primary);
 }
+
+.pagination a {
+  color: var(--text-primary);
+  text-decoration: none;
+  border: 1px solid var(--background-third);
+  padding: 5px 10px;
+  display: inline-block;
+}

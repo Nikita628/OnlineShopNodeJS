@@ -1,6 +1,6 @@
 import express from "express";
 import { requireAuthentication } from "../middleware/require-authentication";
-import { cartService } from "../services";
+import { cartService, paginationMapper } from "../services";
 import { orderService } from "../services";
 import { productService } from "../services";
 import fs from "fs";
@@ -10,16 +10,22 @@ import { isAuthorizedToReadOrder } from "../middleware/order-read-authorization"
 const shopRouter = express.Router();
 
 shopRouter.get("/", async (req, res, next) => {
+  const pagination = paginationMapper.toModel(req.query);
+
   res.render("shop/index", {
     pageTitle: "Shop",
-    products: await productService.getProducts({}),
+    page: await productService.getProducts(pagination),
+    pagination,
   });
 });
 
 shopRouter.get("/product-list", async (req, res, next) => {
+  const pagination = paginationMapper.toModel(req.query);
+
   res.render("shop/product-list", {
     pageTitle: "Product List",
-    products: await productService.getProducts({}),
+    page: await productService.getProducts(pagination),
+    pagination,
   });
 });
 

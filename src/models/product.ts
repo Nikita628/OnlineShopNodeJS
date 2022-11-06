@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import { IProductNoSqlDbModel } from "../database/contracts/product";
+import { IPagination } from "./utils/pagination";
 
 export interface IProductBase {
   title: string;
@@ -17,7 +18,7 @@ export interface IProductForCreate extends IProductBase {
   userId: string;
 }
 
-export interface IProductSearchParam {
+export interface IProductSearchParam extends IPagination {
   userId?: string;
 }
 

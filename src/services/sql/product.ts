@@ -10,11 +10,12 @@ import { IProductSqlDbModel } from "../../database/contracts/product";
 import { productMapper } from "..";
 import { AggregatedError } from "../../models/utils/aggregated-error";
 import { Result } from "../../models/utils/result";
+import { IPage } from "../../models/utils/pagination";
 
 export class ProductServiceSqlDb implements IProductService {
   public async getProducts(
     searchParam: IProductSearchParam
-  ): Promise<IProduct[]> {
+  ): Promise<IPage<IProduct>> {
     const filter: FindOptions<IProductSqlDbModel> = {};
 
     if (searchParam.userId) {
@@ -24,7 +25,10 @@ export class ProductServiceSqlDb implements IProductService {
 
     const dbModels = await Product.findAll(filter);
 
-    return dbModels.map((m) => productMapper.toModelFromDbModel(m.get()));
+    return {
+      items: dbModels.map((m) => productMapper.toModelFromDbModel(m.get())),
+      total: await Product.count(),
+    };
   }
 
   public async createProduct(

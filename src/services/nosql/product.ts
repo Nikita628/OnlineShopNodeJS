@@ -10,20 +10,28 @@ import { FilterQuery } from "mongoose";
 import { productMapper, productValidator } from "..";
 import { Result } from "../../models/utils/result";
 import { AggregatedError } from "../../models/utils/aggregated-error";
+import { IPage } from "../../models/utils/pagination";
 
 export class ProductServiceNoSqlDb implements IProductService {
   public async getProducts(
     searchParam: IProductSearchParam
-  ): Promise<IProduct[]> {
+  ): Promise<IPage<IProduct>> {
     const filter: FilterQuery<IProductNoSqlDbModel> = {};
 
     if (searchParam.userId) {
       filter.userId = { $eq: searchParam.userId };
     }
 
-    const productsFromDb = await ProductModel.find(filter);
+    const productsFromDb = await ProductModel.find(filter)
+      .skip(searchParam.pageSize * (searchParam.page - 1))
+      .limit(searchParam.pageSize);
 
-    return productsFromDb.map((i) => productMapper.toModelFromNoSqlDbModel(i));
+    return {
+      items: productsFromDb.map((i) =>
+        productMapper.toModelFromNoSqlDbModel(i)
+      ),
+      total: await ProductModel.countDocuments(),
+    };
   }
 
   public async createProduct(
